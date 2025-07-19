@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {   
+    background-color: #1d3557;
+    font-family: 'Poppins', sans-serif;
+}
+
+#auth-container { 
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+
+#auth-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    height: 100%;
+}
+
+#auth-illustration img {
+    width: 60%;
+    height: 60%;
+}
+
+#auth-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 100%;
+    background-color: #f1faee;
+    padding: 2rem;
+}
+
+#logo img{
+    width: 150px;
+}
+
+#auth-form form {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#auth-form h1 {
+    color: #1d3557;
+    font-size: 3rem;
+}
+
+#auth-form h1 span {
+    color: #4c6a94;
+}
+
+#auth-form p {
+    color: #7b838f;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-field {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.form-field label {
+    color: #1d3557;
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+}
+
+.form-field input {
+    background-color: #dbe1e6;
+    width: 100%;
+    padding: 1rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    border: 1px solid #ccc;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.form-field input:focus {
+    outline: none;
+    border-color: #457b9d;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.2);
+}
+
+#auth-form button {
+    width: 100%;
+    background-color: #457b9d;
+    color: #f1faee;
+    padding: 1rem 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 1rem;
+}
+
+#auth-form button:hover {
+    background-color: #355a7d;
+    transform: scale(1.05);
+}
