@@ -1,0 +1,143 @@
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  .col,
+  [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.login {
+  background-color: #0b103f;
+}
+
+#login-left {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#content-login {
+  padding: 2rem;
+  background-color: #e1e8f0;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  width: 100%;
+}
+
+form .form-group {
+  text-align: left;
+}
+
+img {
+  width: 60%;
+  height: 60%;
+}
+
+#logo {
+  width: 20%;
+  height: 25%;
+}
+
+h1 {
+  color: #0b103f;
+  font-weight: bold;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+p:first-of-type {
+  color: #525b68;
+  text-align: center;
+  font-size: 16px;
+}
+
+label {
+  color: #0B3C5D;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.form-control {
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.btn {
+  background-color: #0b103f;
+  color: #fff;
+  padding: 0.6rem;
+  font-weight: 700;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #054085;
+  color: #fff;
+  transform: scale(1.02);
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #0b103f;
+  width: 100%;
+}
+
+#cadastro {
+  text-align: center;
+  font-size: 18px;
+}
+
+.login-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-error p {
+  color: red;
+  font-weight: 600;
+}
+
+#forget-pass {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #0b103f;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+  color: #054085;
+  text-decoration: underline;
+}
