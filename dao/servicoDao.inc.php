@@ -5,10 +5,11 @@ include_once '../classes/servico.inc.php';
 class ServicoDao {
     private $conn;
 
-    public function __construct() {
-        $c = Conexao::getInstance();
-        $this->conn = $c;
-    }
+    public function __construct()
+        {
+            $c = new Conexao();
+            $this->conn = $c->getConexao();
+        }
 
     public function inserirServico(Servico $servico) {
         $sql = $this->conn->prepare("INSERT INTO servicos (nome, valor, descricao, id_tipo) VALUES (:nome, :valor, :descricao, :tipo_servico)");

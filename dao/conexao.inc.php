@@ -1,22 +1,16 @@
 <?php
+    class Conexao
+    {
+        private $servidor_mysql = 'localhost';
+        private $nome_banco = 'lojat3ek';
+        private $usuario = 'root';
+        private $senha = ''; 
+        private $con;
 
-class Conexao {
-    static private $instance = null;
-    private $conn;
-
-    private function __construct(){
-        $servidor_mysql = 'localhost';
-        $usuario = 'root';
-        $senha = '';
-        $nome_banco = 'lojat3ek';
-        $this->conn = new PDO("mysql:host=$servidor_mysql;dbname=$nome_banco", "$usuario", "$senha");
-    }
-
-    static public function getInstance() {
-        if (self::$instance == null) {
-            self::$instance = new Conexao();
+        public function getConexao()
+        {
+                $this->con = new PDO("mysql:host=$this->servidor_mysql;dbname=$this->nome_banco","$this->usuario","$this->senha");
+                return $this->con;
         }
-        return self::$instance->conn;
     }
-}
 ?>
