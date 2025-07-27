@@ -4,38 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/style-login.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style_login.css">
     
 </head>
 <body>
-    <div id="auth-container">
-        <div id="auth-illustration">
-            <img src="imagens/login-imagem.svg" alt="Ilustração de autenticação">
-        </div>
-
-        <div id="auth-form">
-            <div id="logo">
-                <img src="imagens/logo.png" alt="Logo da Empresa">
+    <div class="container-fluid login">
+        <div class="row no-gutters">
+            <div class="col-6">
+                <div id="login-left">
+                        <img src="imagens/login-animate.svg" alt="">
+                </div>
             </div>
-            <h1>Faça seu <span>LOGIN</span></h1>
-            <p>Por favor, entre com suas credenciais</p>
+            <div class="col-6">
+                <div id="login-right">
+                        <div id="content-login">
+                                <h1>LOGIN</h1>
+                                <p>Entre com suas credenciais</p>
 
-            <form action="#" method="post">
-                <div class="form-field">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Digite seu email" required>
+                                <form action="../controllers/controllerCliente.php" method="get">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="pEmail" placeholder="Digite seu email"><br>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="senha">Senha</label>
+                                        <input type="password" class="form-control" id="Senha" name="pSenha" placeholder="Digite sua senha">
+                                    </div>
+                                    <div class="login-error">
+                                        <?php
+                                            $msg = "&nbsp;";
+                                            if(isset($_REQUEST['erro'])){
+                                                $tipo = (int)$_REQUEST['erro'];
+                                                if($tipo == 1){
+                                                    $msg = "Login incorreto!";
+                                                }
+                                            }
+                                        ?>
+                                        <p><?=$msg ?></p>
+                                        <div id="forget-pass">
+                                            <a href="#">Esqueceu a senha?</a>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn w-100">Entrar</button>
+
+                                    <input type="hidden" value="1" name="pOpcao">
+                                </form>
+
+                                <hr>
+                                <p id="cadastro">Não tem uma conta? <a href="#">Cadastre-se</a></p>
+                        </div>
                 </div>
-
-                <div class="form-field">
-                    <label for="senha">Senha</label>
-                    <input type="password" name="senha" id="senha" placeholder="Digite sua senha" required>
-                </div>
-
-                <button type="submit">Login</button>
-            </form>
+            </div>
         </div>
     </div>
 </body>
