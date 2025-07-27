@@ -1,0 +1,17 @@
+body {
+    background-color: white;
+}
+
+
+#jumbotron {
+    background-color: #E5E5E5;
+}
+
+#tabela-servicos thead{
+    background-color: #14213D;
+    color: #FFFFFF;
+}
+
+#tabela-servicos tbody{
+    background-color: #FFFFFF;
+}
