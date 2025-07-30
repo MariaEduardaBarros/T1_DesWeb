@@ -1,5 +1,7 @@
 <?php
-    require_once "../controllers/processa_servico.php";
+    require_once "../classes/servico.inc.php";
+    session_start();
+    $servicos = $_SESSION['servicos'];
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +20,8 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-dark bg-dark navbar-expand-lg .d-print-none" id="navbar">
+            <div class="col-md-12 p-0 ">
+                <nav class="navbar navbar-dark bg-dark navbar-expand-lg" id="navbar">
                     <a class="navbar-brand" href="#">Navbar</a>
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">
@@ -28,12 +30,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
-                            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(Página atual)</span></a>
-                            <a class="nav-item nav-link" href="#">Destaques</a>
-                            <a class="nav-item nav-link" href="#">Preços</a>
-                            <a class="nav-item nav-link disabled" href="#">Desativado</a>
+                                <a class="nav-item nav-link align-self-center" href="#">Home <span class="sr-only">(Página atual)</span></a>
+                                <a class="nav-item nav-link" href="#">Destaques</a>
+                                <a class="nav-item nav-link" href="#">Preços</a>
+                                <a class="nav-item nav-link" href="#">Desativado</a>
+                                <a class="nav-item nav-link " href="../controllers/controllerCliente.php?pOpcao=2">Sair</a>
                         </div>
-
                     </div>
                 </nav>
             </div>
@@ -67,7 +69,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="../controllers/processa_servico.php" method="post">
+                                            <form action="../controllers/controllerServico.php" method="post">
                                                 <input type="hidden" name="acao" value="cadastrar">
                                                 <div class="form-group">
                                                     <label for="nome">Nome</label>
@@ -114,30 +116,28 @@
                         <div class="col-md-12">
                             <?php 
                                 if (isset($_REQUEST['msg'])){
-                                    if ($_REQUEST['msg'] == 1) {
                             ?>
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <?php echo "Sucesso ao adicionar novo serviço" ?>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-                                    <?php
-                                    } elseif ($_REQUEST['msg'] == 2) {
-                                    ?>
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <?php echo "Erro ao adicionar novo serviço" ?>
+                                        <?= $_REQUEST['msg'] ?>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                             <?php
-                                    } 
+                                }
+                                if (isset($_REQUEST['erro'])){
+                            ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <?= $_REQUEST['erro'] ?>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                            <?php
                                 }
                             ?>
 
-                            <form action="../controllers/processa_servico.php" method="post">
+                            <form action="../controllers/controllerServico.php" method="post">
                                 <table class="table" id="tabela-servicos">
                                     <thead class="thead p-0 m-0">
                                         <tr>
@@ -146,6 +146,7 @@
                                         <th scope="col">Valor</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Tipo</th>
+                                        <th scope="col">Datas</th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         </tr>
@@ -155,14 +156,116 @@
                                             foreach ($servicos as $servico) {
                                         ?>
                                         <tr>
-                                            <th scope="row"><?= $servico['id_servico'] ?></th>
-                                            <td><?= $servico['nome'] ?></td>
-                                            <td><?= $servico['valor'] ?></td>
-                                            <td><?= $servico['descricao'] ?></td>
-                                            <td><?= $servico['id_tipo'] ?></td>
-                                            <td><button type="submit" value="<?php $servico['id_servico']?>" class="btn btn-light"><i class="bi bi-pencil-square"></i></button></td>
-                                            <td><button type="submit" name="acao" value="deletar" class="btn btn-danger"><i class="bi bi-trash"></i></button></td>
-                                            <input type="hidden" name="id_servico" value="<?= $servico['id_servico'] ?>">
+                                            <th scope="row"><?= $servico->getId() ?></th>
+                                            <td><?= $servico->getNome() ?></td>
+                                            <td><?= $servico->getValor() ?></td>
+                                            <td><?= $servico->getDescricao() ?></td>
+                                            <td><?= $servico->getTipoServico() ?></td>
+                                            <td>
+                                                <button type="button" data-toggle="modal" data-target="#modalData" class="btn btn-light">Adicionar datas</button>
+                                                <div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Adicionar Datas</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="../controllers/controllerServico.php" method="post">
+                                                                    <input type="hidden" name="acao" value="<?= "editar_" . $servico->id_servico ?>">
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_1" name="data_1" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_2" name="data_2" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_3" name="data_3" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_4" name="data_4" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_5" name="data_5" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_6" name="data_6" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="date" class="form-control" id="data_7" name="data_7" required>
+                                                                    </div>
+                                                                    <button type="submit" class="btn w-100">Salvar</button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" data-toggle="modal" data-target="#modalEditar" class="btn btn-light"><i class="bi bi-pencil-square"></i></button>
+                                                <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Editar serviço</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="../controllers/controllerServico.php" method="post">
+                                                                    <input type="hidden" name="acao" value="<?= "editar_" . $servico->getId() ?>">
+                                                                    <div class="form-group">
+                                                                        <label for="nome">Nome</label>
+                                                                        <input type="text" class="form-control" id="nome" name="nome" value="<?= $servico->getNome() ?>" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="valor">Valor</label>
+                                                                        <div class="input-group mb-3">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">R$</span>
+                                                                            </div>
+                                                                            <input type="text" class="form-control" id="valor" name="valor" inputmode="decimal" value="<?= $servico->getValor() ?>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="descricao">Descrição</label>
+                                                                        <textarea class="form-control" rows="3"
+                                                                        id="descricao" 
+                                                                        name="descricao"
+                                                                        required><?= $servico->getDescricao() ?></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="tipo_servico">Tipo de serviço</label>
+                                                                        <select class="form-control" id="tipo_servico" name="tipo_servico" value="<?= $servico->getTipoServico() ?>" required>
+                                                                            <option value="1">Elétrica</option>
+                                                                            <option value="2">Encanador</option>
+                                                                            <option value="3">Pedreiro</option>
+                                                                            <option value="4">Vidraceiro</option>
+                                                                            <option value="5">Pintura</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <button type="submit" class="btn w-100">Salvar</button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><a href='../controllers/controllerServico.php?opcao=2&id=".$servico->getId()."' class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
                                         </tr>
                                         <?php
                                             }

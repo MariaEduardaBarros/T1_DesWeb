@@ -13,7 +13,7 @@
         if($cliente != NULL){
             session_start();
             $_SESSION['cliente'] = $cliente;
-            header("Location: ../views/servicos.php");
+            header("Location: controllerServico.php?acao=exibir");
         }
         else{ 
             header("Location: ../views/login.php?erro=1");
