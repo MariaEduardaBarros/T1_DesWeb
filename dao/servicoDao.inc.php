@@ -1,6 +1,7 @@
 <?php
-include_once 'conexao.inc.php';
-include_once '../classes/servico.inc.php';
+require_once 'conexao.inc.php';
+require_once '../classes/servico.inc.php';
+require_once '../utils/funcoesUteis.php';
 
 class ServicoDao {
     private $conn;
@@ -11,7 +12,7 @@ class ServicoDao {
             $this->conn = $c->getConexao();
         }
 
-    public function inserirServico(Servico $servico) {
+    public function inserirServico(Servico $servico) { // insere um novo serviço no banco de dados
         $sql = $this->conn->prepare("INSERT INTO servicos (nome, valor, descricao, id_tipo) VALUES (:nome, :valor, :descricao, :tipo_servico)");
         $sql->bindValue(':nome', $servico->getNome());
         $sql->bindValue(':valor', $servico->getValor());
@@ -20,7 +21,7 @@ class ServicoDao {
         return $sql->execute();
     }
 
-    public function buscarServicoPorId($id_servico) {
+    public function buscarServicoPorId($id_servico) { // busca um serviço pelo id
         $sql = $this->conn->prepare("SELECT * FROM servicos WHERE id_servico = :id_servico");
         $sql->bindValue(':id_servico', $id_servico);
         $sql->execute();
@@ -28,30 +29,31 @@ class ServicoDao {
         $servico = new Servico();   
         $servico->setId($id_servico);
         $servico->setServico($row->nome, $row->descricao, $row->valor, $row->id_tipo);
-        $servico->setDataServico($row->data_servico);
         return $servico;
     }
 
-    public function listarServicos() {
+    public function listarServicos() { // lista todos os serviços
         $sql = $this->conn->query("SELECT * FROM servicos");
         $servicos = array();
         while($row = $sql->fetch(PDO::FETCH_OBJ)){
             $servico = new Servico();   
             $servico->setId($row->id_servico);
             $servico->setServico($row->nome, $row->descricao, $row->valor, $row->id_tipo);
-            $servico->setDataServico($row->data_servico);
+            $datas = $this->buscarDatasPorServicoId($row->id_servico);
+            $servico->setDatasServico($datas);
             $servicos[] = $servico;
         }
         return $servicos;
     }
 
-    public function deletarServico($id_servico) {
+    public function deletarServico($id_servico) { // deleta um serviço pelo id
+        $this->deletarDatasPorServicoId($id_servico); // deleta as datas associadas ao serviço
         $sql = $this->conn->prepare("DELETE FROM servicos WHERE id_servico = :id_servico");
         $sql->bindValue(':id_servico', $id_servico);
         return $sql->execute();
     }
 
-    public function atualizarServico(Servico $servico) {
+    public function atualizarServico(Servico $servico) { // atualiza os dados do serviço
         $sql = $this->conn->prepare("UPDATE servicos SET nome = :nome, valor = :valor, descricao = :descricao, id_tipo = :tipo_servico WHERE id_servico = :id_servico");
         $sql->bindValue(':nome', $servico->getNome());
         $sql->bindValue(':valor', $servico->getValor());
@@ -62,15 +64,33 @@ class ServicoDao {
     }
 
     public function inserirDatas(Servico $servico, $datas) {
-        foreach ($datas as $data) {
-            $sql = $this->conn->prepare("INSERT INTO datasdisponiveis (data, disponivel, id_disponibilidade, id_servico) VALUES (:id_servico, :data)");
+        $datas_timestamp = $servico->setDatasServico($datas);
+        $this->deletarDatasPorServicoId($servico->getId()); // limpa as datas existentes
+        foreach ($datas_timestamp as $data) { // percorre o array de datas
+            $sql = $this->conn->prepare("INSERT INTO datasdisponiveis (data, disponivel, id_servico) VALUES (:data, :disponivel, :id_servico)");
+            $sql->bindValue(':data', converteDataMysql($data)); // converte a data para o formato MySQL
+            $sql->bindValue(':disponivel', true); // define como disponível
             $sql->bindValue(':id_servico', $servico->getId());
-            $sql->bindValue(':data', $data);
-            if (!$sql->execute()) {
-                return false;
-            }
+            $sql->execute();
         }
         return true;
+    }
+
+    public function buscarDatasPorServicoId($id_servico) { // busca as datas de um serviço
+        $sql = $this->conn->prepare("SELECT data FROM datasdisponiveis WHERE id_servico = :id_servico");
+        $sql->bindValue(':id_servico', $id_servico);
+        $sql->execute();
+        $datas = array();
+        while ($row = $sql->fetch(PDO::FETCH_OBJ)) {
+            $datas[] = $row->data;
+        }
+        return $datas;
+    }
+
+    public function deletarDatasPorServicoId($id_servico) { // deleta as datas associadas a um serviço
+        $sql = $this->conn->prepare("DELETE FROM datasdisponiveis WHERE id_servico = :id_servico");
+        $sql->bindValue(':id_servico', $id_servico);
+        return $sql->execute();
     }
 }
 

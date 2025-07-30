@@ -1,47 +1,10 @@
 <?php
     require_once "../classes/servico.inc.php";
-    session_start();
+    require_once "includes/cabecalho.inc.php";
     $servicos = $_SESSION['servicos'];
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style-servicos.css">
-</head>
-<body>
-    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 p-0 ">
-                <nav class="navbar navbar-dark bg-dark navbar-expand-lg" id="navbar">
-                    <a class="navbar-brand" href="#">Navbar</a>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                                <a class="nav-item nav-link align-self-center" href="#">Home <span class="sr-only">(Página atual)</span></a>
-                                <a class="nav-item nav-link" href="#">Destaques</a>
-                                <a class="nav-item nav-link" href="#">Preços</a>
-                                <a class="nav-item nav-link" href="#">Desativado</a>
-                                <a class="nav-item nav-link " href="../controllers/controllerCliente.php?pOpcao=2">Sair</a>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 p-0">
                 <div class="jumbotron jumbotron-fluid" id="jumbotron">
                     <div class="container">
                         <h1 class="display-4">Bem-vindo ao gerenciador de serviços!</h1>
@@ -70,7 +33,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form action="../controllers/controllerServico.php" method="post">
-                                                <input type="hidden" name="acao" value="cadastrar">
+                                                <input type="hidden" name="opcao" value="1">
                                                 <div class="form-group">
                                                     <label for="nome">Nome</label>
                                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome do serviço" required>
@@ -95,11 +58,8 @@
                                                 <div class="form-group">
                                                     <label for="tipo_servico">Tipo de serviço</label>
                                                     <select class="form-control" id="tipo_servico" name="tipo_servico" required>
-                                                        <option value="1">Elétrica</option>
-                                                        <option value="2">Encanador</option>
-                                                        <option value="3">Pedreiro</option>
-                                                        <option value="4">Vidraceiro</option>
-                                                        <option value="5">Pintura</option>
+                                                        <option value="1">Desenvolvedor</option>
+                                                        <option value="2">Analista de Dados</option>
                                                     </select>
                                                 </div>
                                                 <button type="submit" class="btn w-100">Salvar</button>
@@ -138,7 +98,7 @@
                             ?>
 
                             <form action="../controllers/controllerServico.php" method="post">
-                                <table class="table" id="tabela-servicos">
+                                <table class="table table-hover" id="tabela-servicos">
                                     <thead class="thead p-0 m-0">
                                         <tr>
                                         <th scope="col">Id</th>
@@ -162,8 +122,8 @@
                                             <td><?= $servico->getDescricao() ?></td>
                                             <td><?= $servico->getTipoServico() ?></td>
                                             <td>
-                                                <button type="button" data-toggle="modal" data-target="#modalData" class="btn btn-light">Adicionar datas</button>
-                                                <div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <button type="button" data-toggle="modal" data-target="#modalData<?= $servico->getId() ?>" class="btn btn-light">Adicionar datas</button>
+                                                <div class="modal fade" id="modalData<?= $servico->getId() ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -174,34 +134,35 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form action="../controllers/controllerServico.php" method="post">
-                                                                    <input type="hidden" name="acao" value="<?= "editar_" . $servico->id_servico ?>">
+                                                                    <input type="hidden" name="opcao" value=5>
+                                                                    <input type="text" name="id" value="<?= $servico->getId() ?>" hidden>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_1" name="data_1" required>
+                                                                        <label for="nome">Data 1</label>
+                                                                        <input type="date" class="form-control" id="data_1" name="data_1" value="<?= date("Y-m-d", $servico->getDataServico()[0]) ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_2" name="data_2" required>
+                                                                        <label for="nome">Data 2</label>
+                                                                        <input type="date" class="form-control" id="data_2" name="data_2" value="<?= date("Y-m-d", $servico->getDataServico()[1]) ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_3" name="data_3" required>
+                                                                        <label for="nome">Data 3</label>
+                                                                        <input type="date" class="form-control" id="data_3" name="data_3" value="<?= date("Y-m-d", $servico->getDataServico()[2]) ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_4" name="data_4" required>
+                                                                        <label for="nome">Data 4</label>
+                                                                        <input type="date" class="form-control" id="data_4" name="data_4" value="<?= date("Y-m-d", $servico->getDataServico()[3]) ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_5" name="data_5" required>
+                                                                        <label for="nome">Data 5</label>
+                                                                        <input type="date" class="form-control" id="data_5" name="data_5" value="<?= date("Y-m-d", $servico->getDataServico()[4]) ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_6" name="data_6" required>
+                                                                        <label for="nome">Data 6</label>
+                                                                        <input type="date" class="form-control" id="data_6" name="data_6" value="<?= date("Y-m-d", $servico->getDataServico()[5]) ?>">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="nome">Nome</label>
-                                                                        <input type="date" class="form-control" id="data_7" name="data_7" required>
+                                                                        <label for="nome">Data 7</label>
+                                                                        <input type="date" class="form-control" id="data_7" name="data_7" value="<?= date("Y-m-d", $servico->getDataServico()[6]) ?>">
                                                                     </div>
                                                                     <button type="submit" class="btn w-100">Salvar</button>
                                                                 </form>
@@ -213,8 +174,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" data-toggle="modal" data-target="#modalEditar" class="btn btn-light"><i class="bi bi-pencil-square"></i></button>
-                                                <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <button type="button" data-toggle="modal" data-target="#modalEditar<?= $servico->getId() ?>" class="btn btn-light"><i class="bi bi-pencil-square"></i></button>
+                                                <div class="modal fade" id="modalEditar<?= $servico->getId() ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -225,7 +186,8 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form action="../controllers/controllerServico.php" method="post">
-                                                                    <input type="hidden" name="acao" value="<?= "editar_" . $servico->getId() ?>">
+                                                                    <input type="hidden" name="opcao" value="4">
+                                                                    <input type="hidden" name="id" value="<?= $servico->getId() ?>">
                                                                     <div class="form-group">
                                                                         <label for="nome">Nome</label>
                                                                         <input type="text" class="form-control" id="nome" name="nome" value="<?= $servico->getNome() ?>" required>
@@ -249,11 +211,8 @@
                                                                     <div class="form-group">
                                                                         <label for="tipo_servico">Tipo de serviço</label>
                                                                         <select class="form-control" id="tipo_servico" name="tipo_servico" value="<?= $servico->getTipoServico() ?>" required>
-                                                                            <option value="1">Elétrica</option>
-                                                                            <option value="2">Encanador</option>
-                                                                            <option value="3">Pedreiro</option>
-                                                                            <option value="4">Vidraceiro</option>
-                                                                            <option value="5">Pintura</option>
+                                                                            <option value="1">Desenvolvedor</option>
+                                                                            <option value="2">Analista de Dados</option>
                                                                         </select>
                                                                     </div>
                                                                     <button type="submit" class="btn w-100">Salvar</button>
@@ -265,7 +224,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><a href='../controllers/controllerServico.php?opcao=2&id=".$servico->getId()."' class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
+                                            <td><a href='../controllers/controllerServico.php?opcao=2&id=<?= $servico->getId()?>' class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
                                         </tr>
                                         <?php
                                             }
