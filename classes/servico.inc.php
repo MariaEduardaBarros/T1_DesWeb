@@ -5,7 +5,7 @@
         private $descricao;
         private $valor;
         private $tipo_servico;
-        private $data_servico = [];
+        private $data_servico = array();
 
         public function setServico($nome, $descricao, $valor, $tipo_servico) {
             $this->nome = $nome;
@@ -38,8 +38,14 @@
             return $this->data_servico;
         }
 
-        public function setDataServico($data) {
-            $this->data_servico[] = $data;
+        public function setDatasServico(array $vetorDeDatas) {
+            $this->data_servico = []; 
+            foreach ($vetorDeDatas as $data) {
+                if (!empty($data)) {
+                    $this->data_servico[] = strtotime($data); // converte a data para timestamp
+                }
+            }
+            return $this->data_servico;
         }
 
         public function getTipoServico() {
