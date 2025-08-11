@@ -1,0 +1,104 @@
+<?php
+class Usuario {
+    private $id;
+    private $nome;
+    private $email;
+    private $is_admin;
+    private $endereco;
+    private $telefone;
+    private $cpf;
+    private $dtNascimento;
+    private $senha;
+
+    // Método para preencher os dados do usuário
+    public function setUsuario($id, $nome, $email, $is_admin, $endereco, $telefone, $cpf, $dtNascimento, $senha) {
+        $this->id = $id;
+        $this->nome = $nome;
+        $this->email = $email;
+        $this->is_admin = (bool) $is_admin;
+        $this->endereco = $endereco;
+        $this->telefone = $telefone;
+        $this->cpf = $cpf;
+        $this->dtNascimento = $dtNascimento;
+        $this->senha = $senha;
+
+    }
+
+    // Getters e setters para cada propriedade
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function getNome() {
+        return $this->nome;
+    }
+
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function setAdmin() {
+        return $this->is_admin;
+    }
+
+    public function getAdmin() {
+        return $this->is_admin;
+    }
+
+    public function setIsAdmin($is_admin) {
+        $this->is_admin = (bool) $is_admin;
+    }
+
+    public function setEndereco($endereco) {
+        $this->endereco = $endereco;
+    }
+
+    public function setTelefone($telefone) {
+        $this->telefone = $telefone;
+    }
+
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
+
+    public function setDtNascimento($dtNascimento) {
+        $this->dtNascimento = $dtNascimento;
+    }
+
+    public function setSenha($senha) {
+        $this->senha = $senha;
+    }
+
+    public function getEndereco() {
+        return $this->endereco;
+    }
+
+    public function getTelefone() {
+        return $this->telefone;
+    }
+
+    public function getCpf() {
+        return $this->cpf;
+    }
+
+    public function getDtNascimento() {
+        return $this->dtNascimento;
+    }
+
+    public function getSenha() {
+        return $this->senha;
+    }
+}
+?>

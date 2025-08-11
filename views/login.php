@@ -25,7 +25,7 @@
                                 <h1>LOGIN</h1>
                                 <p>Entre com suas credenciais</p>
 
-                                <form action="../controllers/controllerCliente.php" method="get">
+                                <form action="../controllers/controllerUsuario.php" method="get">
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" class="form-control" id="email" name="pEmail" placeholder="Digite seu email"><br>

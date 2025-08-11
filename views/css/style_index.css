@@ -85,4 +85,11 @@ body {
   }
 }
 
+#jumbotron {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
 

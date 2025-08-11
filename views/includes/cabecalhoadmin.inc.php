@@ -1,8 +1,3 @@
-<?php
-    $usuarioLogado = $_SESSION['usuario'] ?? null;
-$isAdmin = ($usuarioLogado && isset($usuarioLogado->is_admin)) ? (int)$usuarioLogado->is_admin : 0;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +12,7 @@ $isAdmin = ($usuarioLogado && isset($usuarioLogado->is_admin)) ? (int)$usuarioLo
     <link rel="stylesheet" href="css/style_servicos.css">
 </head>
 <body>
-   <div class="container-fluid">
+    <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 p-0 ">
             <nav class="navbar navbar-dark bg-dark navbar-expand-lg" id="navbar">
@@ -30,21 +25,21 @@ $isAdmin = ($usuarioLogado && isset($usuarioLogado->is_admin)) ? (int)$usuarioLo
 
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                
-                            <a class="nav-item nav-link" href="index.php">Serviços |</a>
-                            <a class="nav-item nav-link" href="./editarPerfil.php">Editar Perfil</a>
-                       
+                        <a class="nav-item nav-link" href="servicos.php">Gerenciador de Serviços | </a>
+                        <a class="nav-item nav-link" href="usuarios.php">Gerenciador de Usuários </a>
                     </div>
                     <div class="navbar-nav ml-auto">
-                        <a class="nav-item nav-link" href="#">Sair</a>
+                        <a class="nav-item nav-link" href="../controllers/controllerUsuario.php?pOpcao=2">Sair</a>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
 </div>
-  <?php
-    session_start();
-  ?>
 
-    
+</body>
+</html>
+
+<?php
+session_start();
+?>

@@ -6,7 +6,8 @@ require_once '../classes/servico.inc.php';
 if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
     
     $opcao = $_REQUEST['opcao'];
-    $id_servico = $_REQUEST['id'];
+    $id_servico = $_REQUEST['id'] ?? null;
+
 
 
     if($opcao == "1"){ // opção para inserir um novo serviço
@@ -50,13 +51,19 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
 
         $_SESSION['servicos'] = $servicos;
 
-        if($_REQUEST['msg']){
+        if($_REQUEST['msg'] ?? null){
             $msg = $_REQUEST['msg'];
             header('Location: ../views/servicos.php?msg='.$msg);
         } 
-        else if($_REQUEST['erro']){
+        else if($_REQUEST['erro'] ?? null){
             $erro = $_REQUEST['erro'];
             header('Location: ../views/servicos.php?erro='.$erro);
+        }
+
+        else {
+            
+            
+            header('Location: ../views/servicos.php');
         }
     }
 
