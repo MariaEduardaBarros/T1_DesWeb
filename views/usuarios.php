@@ -1,7 +1,11 @@
 <?php
-    require_once "../classes/usuario.inc.php"; // Classe Usuario
     require_once "includes/cabecalhoadmin.inc.php";
-    $usuarios = isset($_SESSION['usuarios']) && is_array($_SESSION['usuarios']) ? $_SESSION['usuarios'] : [];
+    require_once "../classes/usuario.inc.php"; // Classe Usuario
+    require_once "../dao/UsuarioDao.inc.php"; // Classe UsuarioDao
+
+    
+    $usuarioDao = new UsuarioDao();
+$usuarios = $usuarioDao->listarUsuarios(); 
 ?>
 
 <div class="row">
@@ -25,9 +29,8 @@
                 </div>
                 <div class="col-md-4 d-flex align-items-center">
                     <form class="form-inline flex-grow-1" action="../controllers/controllerUsuario.php" method="get">
-                        <input type="hidden" name="pOpcao" value="3"> <!-- opção para busca no controller -->
-                        <input class="form-control mr-2" type="search" name="buscaNome" placeholder="Buscar por Nome" aria-label="Buscar Nome">
-                        <button class="btn btn-outline-success mr-2" type="submit">Buscar</button>
+                        <input type="hidden" name="opcao" value="3"> <!-- opção para busca no controller -->
+                        
                     </form>
 
                     <!-- Botão que abre modal para adicionar usuário -->
@@ -100,7 +103,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form action="../controllers/controllerUsuario.php" method="post">
-                                                <input type="hidden" name="pOpcao" value="4"> <!-- editar -->
+                                                <input type="hidden" name="opcao" value="4"> <!-- editar -->
                                                 <input type="hidden" name="id" value="<?= htmlspecialchars($usuario->getId()) ?>">
                                                 <div class="form-group">
                                                     <label for="nome<?= $usuario->getId() ?>">Nome</label>
@@ -131,7 +134,7 @@
                             </div>
 
                             <!-- Botão para excluir -->
-                            <a href="../controllers/controllerUsuario.php?pOpcao=2&id=<?= htmlspecialchars($usuario->getId()) ?>" class="btn btn-danger" onclick="return confirm('Confirma a exclusão deste usuário?')">
+                            <a href="../controllers/controllerUsuario.php?opcao=2&id=<?= htmlspecialchars($usuario->getId()) ?>" class="btn btn-danger" onclick="return confirm('Confirma a exclusão deste usuário?')">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
@@ -151,7 +154,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form action="../controllers/controllerUsuario.php" method="post">
-        <input type="hidden" name="pOpcao" value="1"> <!-- opção para adicionar no controller -->
+        <input type="hidden" name="opcao" value="1"> <!-- opção para adicionar no controller -->
         <div class="modal-header">
           <h5 class="modal-title" id="modalAdicionarUsuarioLabel">Adicionar Usuário</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">

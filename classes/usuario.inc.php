@@ -1,6 +1,6 @@
 <?php
 class Usuario {
-    private $id;
+    private $CodCli;
     private $nome;
     private $email;
     private $is_admin;
@@ -11,8 +11,8 @@ class Usuario {
     private $senha;
 
     // Método para preencher os dados do usuário
-    public function setUsuario($id, $nome, $email, $is_admin, $endereco, $telefone, $cpf, $dtNascimento, $senha) {
-        $this->id = $id;
+    public function setUsuario($CodCli, $nome, $email, $is_admin, $endereco, $telefone, $cpf, $dtNascimento, $senha) {
+        $this->CodCli = $CodCli;
         $this->nome = $nome;
         $this->email = $email;
         $this->is_admin = (bool) $is_admin;
@@ -26,11 +26,11 @@ class Usuario {
 
     // Getters e setters para cada propriedade
     public function getId() {
-        return $this->id;
+        return $this->CodCli;
     }
 
     public function setId($id) {
-        $this->id = $id;
+        $this->CodCli = $id;
     }
 
     public function getNome() {

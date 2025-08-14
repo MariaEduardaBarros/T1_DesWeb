@@ -87,9 +87,7 @@ $servicos = $_SESSION['servicos'] ?? [];
   document.querySelectorAll('.adicionar-carrinho').forEach(button => {
     button.addEventListener('click', () => {
       const servicoId = button.getAttribute('data-id');
-      // Aqui pode entrar a lógica AJAX para adicionar ao carrinho.
-
-      // Exibe modal de confirmação
+      
       $('#modalCarrinho').modal('show');
     });
   });

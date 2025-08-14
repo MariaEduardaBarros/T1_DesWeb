@@ -1,7 +1,9 @@
 <?php
     require_once "../classes/servico.inc.php";
     require_once "includes/cabecalhoadmin.inc.php";
-    $servicos = $_SESSION['servicos'];
+  
+
+    $servicos = $_SESSION['servicos'] ?? null;
 ?>
         <div class="row">
             <div class="col-md-12 p-0">

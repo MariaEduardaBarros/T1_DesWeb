@@ -29,7 +29,7 @@
                         <a class="nav-item nav-link" href="usuarios.php">Gerenciador de Usuários </a>
                     </div>
                     <div class="navbar-nav ml-auto">
-                        <a class="nav-item nav-link" href="../controllers/controllerUsuario.php?pOpcao=2">Sair</a>
+                        <a class="nav-item nav-link" href="../controllers/controllerUsuario.php?opcao=2">Sair</a>
                     </div>
                 </div>
             </nav>
