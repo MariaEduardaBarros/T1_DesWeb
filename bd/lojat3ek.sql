@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10/08/2025 às 22:26
+-- Tempo de geração: 14/08/2025 às 00:33
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -34,14 +34,6 @@ CREATE TABLE `datasdisponiveis` (
   `disponivel` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Despejando dados para a tabela `datasdisponiveis`
---
-
-INSERT INTO `datasdisponiveis` (`id_servico`, `id_disponibilidade`, `data`, `disponivel`) VALUES
-(22, 67, '2025-07-18', 1),
-(22, 68, '2025-08-10', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -61,7 +53,6 @@ CREATE TABLE `servicos` (
 --
 
 INSERT INTO `servicos` (`id_servico`, `nome`, `valor`, `descricao`, `id_tipo`) VALUES
-(22, 'Kailany', 333, 'cientista de dados', 2),
 (23, 'Lukas', 150, 'Desenvolvedor Front-end', 1),
 (24, 'Thiago', 100, 'Desenvolvedor Back-end', 1),
 (26, 'QA', 3500, 'teste de descrição', 2);
@@ -93,7 +84,7 @@ INSERT INTO `tipo` (`id_tipo`, `nome`, `valor`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `CodCli` decimal(4,0) DEFAULT NULL,
+  `CodCli` int(11) NOT NULL,
   `Nome` varchar(50) DEFAULT NULL,
   `Endereco` varchar(50) DEFAULT NULL,
   `Telefone` varchar(20) DEFAULT NULL,
@@ -109,9 +100,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`CodCli`, `Nome`, `Endereco`, `Telefone`, `CPF`, `DtNascimento`, `Email`, `Senha`, `is_admin`) VALUES
-(NULL, NULL, NULL, NULL, NULL, NULL, 'admin@gmail.com', '1234', 0),
-(1, 'admin', 'testeEnd', '2898151193', '19109625705', '0000-00-00 00:00:00', 'admin@gmail.com', '123', 1),
-(1, 'Maria', 'Rua das Flores, 123', '11999999999', '12345678900', '1990-01-01 00:00:00', 'maria@gmail.com', '123', 0);
+(5, 'Maria Eduarda 01', 'Alegre, ES', '28988151193', '1910962504', '2001-10-28 00:00:00', 'mariaeduarda@gmail.c', 'teste123', 0),
+(6, 'Maria Eduarda 02', '', '28988151193', '', '0000-00-00 00:00:00', 'maria@gmail.com', '1234', 0),
+(7, 'admin', 'testeEnd', '2898151193', '19109625705', '0000-00-00 00:00:00', 'admin@gmail.com', '123', 1),
+(9, 'Maria Eduarda 04', 'Alegre, ES', '28988151193', '1910962504', '2001-10-28 00:00:00', 'maria@gmail', '1234', 0),
+(10, 'teste final', '', '28988151193', '1910962504', '2001-10-28 00:00:00', 'mariaeduardabarros@g', '123', 0);
 
 -- --------------------------------------------------------
 
@@ -151,6 +144,12 @@ ALTER TABLE `tipo`
   ADD PRIMARY KEY (`id_tipo`);
 
 --
+-- Índices de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`CodCli`);
+
+--
 -- Índices de tabela `vendas`
 --
 ALTER TABLE `vendas`
@@ -171,6 +170,12 @@ ALTER TABLE `datasdisponiveis`
 --
 ALTER TABLE `servicos`
   MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `CodCli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
