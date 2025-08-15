@@ -138,5 +138,31 @@ if(isset($_REQUEST['opcao'])) {
         header("Location:../views/index.php");
     }
 
+    else if($opcao == "8"){ // Recuperar senha
+        $email = $_REQUEST['pEmail'];
+        $novaSenha = $_REQUEST['pSenha'];
+        $confirmacaoSenha = $_REQUEST['pConfirmacaoSenha'];   
+        
+        if(!empty($email) && !empty($novaSenha) && !empty($confirmacaoSenha)){
+            $usuario = $usuarioDao->buscarUsuarioPorEmail($email);
+            
+            if($usuario != null){
+                if($novaSenha == $confirmacaoSenha){
+                    if($usuarioDao->atualizarSenha($email, $novaSenha)){
+                        header('Location: ../views/recuperarSenha.php?msg=1');
+                    }
+                    else{
+                        header('Location: ../views/recuperarSenha.php?erro=3');
+                    }
+                }
+                else {
+                    header('Location: ../views/recuperarSenha.php?erro=1');
+                }
+            }
+            else {
+                header('Location: ../views/recuperarSenha.php?erro=2');
+            }
+        }
+    }
 }
 ?>
