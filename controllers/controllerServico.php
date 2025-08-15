@@ -44,26 +44,26 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
         }
     }
 
-    else if ($opcao == "3"){ // opção para listar os serviços
+    else if ($opcao == "3" || $opcao == "6"){ // opção para listar os serviços
         session_start();
         $servicoDao = new ServicoDao();
         $servicos = $servicoDao->listarServicos(); 
 
         $_SESSION['servicos'] = $servicos;
-
-        if($_REQUEST['msg'] ?? null){
-            $msg = $_REQUEST['msg'];
-            header('Location: ../views/servicos.php?msg='.$msg);
-        } 
-        else if($_REQUEST['erro'] ?? null){
-            $erro = $_REQUEST['erro'];
-            header('Location: ../views/servicos.php?erro='.$erro);
-        }
-
-        else {
-            
-            
-            header('Location: ../views/servicos.php');
+        if($opcao == "3"){
+            if($_REQUEST['msg'] ?? null){
+                $msg = $_REQUEST['msg'];
+                header('Location: ../views/servicos.php?msg='.$msg);
+            } 
+            else if($_REQUEST['erro'] ?? null){
+                $erro = $_REQUEST['erro'];
+                header('Location: ../views/servicos.php?erro='.$erro);
+            }
+            else {
+                header('Location: ../views/servicos.php');
+            }
+        } else if ($opcao == "6") {
+            header('Location: ../views/servicosVenda.php');
         }
     }
 
