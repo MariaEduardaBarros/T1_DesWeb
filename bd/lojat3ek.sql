@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 14/08/2025 às 00:33
+-- Tempo de geração: 15/08/2025 às 15:40
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -85,26 +85,24 @@ INSERT INTO `tipo` (`id_tipo`, `nome`, `valor`) VALUES
 
 CREATE TABLE `usuarios` (
   `CodCli` int(11) NOT NULL,
-  `Nome` varchar(50) DEFAULT NULL,
-  `Endereco` varchar(50) DEFAULT NULL,
+  `Nome` text DEFAULT NULL,
+  `Endereco` text DEFAULT NULL,
   `Telefone` varchar(20) DEFAULT NULL,
   `CPF` varchar(13) DEFAULT NULL,
   `DtNascimento` datetime DEFAULT NULL,
-  `Email` varchar(20) DEFAULT NULL,
-  `Senha` varchar(8) DEFAULT NULL,
-  `is_admin` tinyint(1) DEFAULT 0
+  `Email` text DEFAULT NULL,
+  `Senha` text DEFAULT NULL,
+  `tipo` char(1) DEFAULT 'C'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`CodCli`, `Nome`, `Endereco`, `Telefone`, `CPF`, `DtNascimento`, `Email`, `Senha`, `is_admin`) VALUES
-(5, 'Maria Eduarda 01', 'Alegre, ES', '28988151193', '1910962504', '2001-10-28 00:00:00', 'mariaeduarda@gmail.c', 'teste123', 0),
-(6, 'Maria Eduarda 02', '', '28988151193', '', '0000-00-00 00:00:00', 'maria@gmail.com', '1234', 0),
-(7, 'admin', 'testeEnd', '2898151193', '19109625705', '0000-00-00 00:00:00', 'admin@gmail.com', '123', 1),
-(9, 'Maria Eduarda 04', 'Alegre, ES', '28988151193', '1910962504', '2001-10-28 00:00:00', 'maria@gmail', '1234', 0),
-(10, 'teste final', '', '28988151193', '1910962504', '2001-10-28 00:00:00', 'mariaeduardabarros@g', '123', 0);
+INSERT INTO `usuarios` (`CodCli`, `Nome`, `Endereco`, `Telefone`, `CPF`, `DtNascimento`, `Email`, `Senha`, `tipo`) VALUES
+(5, 'Maria Eduarda 01', 'Alegre, ES', '28988151193', '1910962504', '2001-10-28 00:00:00', 'mariaeduarda@gmail.c', 'teste123', 'C'),
+(6, 'Maria Eduarda Barros', 'Alegre - ES', '28988151193', '', '0000-00-00 00:00:00', 'maria@gmail.com', '1234', 'C'),
+(7, 'admin', 'testeEnd', '2898151193', '19109625705', '0000-00-00 00:00:00', 'admin@gmail.com', '123', 'A');
 
 -- --------------------------------------------------------
 
@@ -175,7 +173,7 @@ ALTER TABLE `servicos`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `CodCli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `CodCli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
