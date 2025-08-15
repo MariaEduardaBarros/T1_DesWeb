@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></a>
+                        <a class="nav-item nav-link" href="carrinho.php"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></a>
                         
                         <?php
                             if(!isset($_SESSION['usuario']))
@@ -39,7 +39,6 @@
                 </div>
             </nav>
         </div>
-    </div>
     </div>
 
     

@@ -2,7 +2,7 @@
 require_once "../classes/servico.inc.php";
 require_once "includes/cabecalho.inc.php";
 
-$servicos = $_SESSION['servicos'] ?? [];
+$servicos = $_SESSION['servicos'];
 ?>
 
 <div class="container-fluid px-0">
@@ -27,7 +27,7 @@ $servicos = $_SESSION['servicos'] ?? [];
 
             <div class="mt-auto">
               <a class="btn btn-primary w-100"
-                 href="../controllers/controllerCarrinho.php?opcao=1&id=<?= $servico->getId() ?>&from=paginaServicos">
+                 href="../controllers/controllerCarrinho.php?opcao=1&id=<?= $servico->getId()?>">
                 Adicionar ao carrinho
               </a>
             </div>
@@ -35,42 +35,10 @@ $servicos = $_SESSION['servicos'] ?? [];
           </div>
         </div>
       </div>
-
-      <!-- Modal de confirmação -->
-      <div class="modal fade" id="confirmarModal<?= $servico->getId() ?>" tabindex="-1" role="dialog" aria-labelledby="confirmarModalLabel<?= $servico->getId() ?>" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="confirmarModalLabel<?= $servico->getId() ?>">Produto adicionado!</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body text-center">
-              O serviço <strong><?= $servico->getNome() ?></strong> foi adicionado ao carrinho.<br>
-              Deseja continuar comprando ou ir para o carrinho?
-            </div>
-            <div class="modal-footer">
-              <a href="carrinho.php" class="btn btn-success">Ir para o carrinho</a>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Continuar comprando</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     <?php } ?>
   </div>
 </div>
 
-<!-- Script para abrir o modal automaticamente se o item foi adicionado -->
-<?php if(isset($_GET['from']) && $_GET['from'] === 'paginaServicos' && isset($_GET['id'])): ?>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var modalId = "confirmarModal<?= $_GET['id'] ?>";
-    $('#' + modalId).modal('show');
-  });
-</script>
-<?php endif; ?>
 
 </body>
 </html>

@@ -225,7 +225,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><a href='../controllers/controllerServico.php?opcao=2&id=<?= $servico->getId()?>' class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
+                                            <td><a href='../controllers/controllerServico.php?opcao=1&id=<?= $servico->getId()?>' class="btn btn-danger"><i class="bi bi-trash"></i></a></td>
                                         </tr>
                                         <?php
                                             }
