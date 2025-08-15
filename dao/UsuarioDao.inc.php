@@ -12,30 +12,19 @@ class UsuarioDao
         $this->conexao = $c->getConexao();
     }
 
-    public function buscarUsuarioPorEmailSenha($email, $senha) {
-    $sql = "SELECT * FROM usuarios WHERE Email = :email AND Senha = :senha";
-    $stmt = $this->conexao->prepare($sql);
-    $stmt->bindValue(':email', $email);
-    $stmt->bindValue(':senha', $senha);
-    $stmt->execute();
-
-    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $usuario = new Usuario();
-        $usuario->setUsuario(
-            $row['CodCli'],
-            $row['Nome'],
-            $row['Email'],
-            $row['is_admin'],
-            $row['Endereco'],
-            $row['Telefone'],
-            $row['CPF'],
-            $row['DtNascimento'],
-            $row['Senha']
-        );
+    public function autenticar($email, $senha) {
+        $sql = $this->conexao->prepare("SELECT * FROM usuarios WHERE email = :email and senha = :senha");
+        
+        $sql->bindValue(':email', $email);
+        $sql->bindValue(':senha', $senha);
+        $sql->execute();
+        
+        $usuario = NULL;
+        if($sql->rowCount() == 1){ //Garante que um usuario foi encontrado
+            $usuario = $sql->fetch(PDO::FETCH_OBJ);
+        }
         return $usuario;
     }
-    return null;
-}
 
     public function getLastInsertId() {
     return $this->conexao->lastInsertId();
@@ -51,7 +40,7 @@ class UsuarioDao
             $row->CodCli,
             $row->Nome,
             $row->Email,
-            $row->is_admin,
+            $row->tipo,
             $row->Endereco,
             $row->Telefone,
             $row->CPF,
@@ -67,12 +56,12 @@ class UsuarioDao
     public function inserirUsuario(Usuario $usuario): bool
     {
         $sql = $this->conexao->prepare("
-        INSERT INTO usuarios (Nome, Email, is_admin, Endereco, Telefone, CPF, DtNascimento, Senha)
-        VALUES (:nome, :email, :is_admin, :endereco, :telefone, :cpf, :dtNascimento, :senha)
+        INSERT INTO usuarios (Nome, Email, tipo, Endereco, Telefone, CPF, DtNascimento, Senha)
+        VALUES (:nome, :email, :tipo, :endereco, :telefone, :cpf, :dtNascimento, :senha)
     ");
         $sql->bindValue(':nome', $usuario->getNome());
         $sql->bindValue(':email', $usuario->getEmail());
-        $sql->bindValue(':is_admin', $usuario->getAdmin(), PDO::PARAM_INT);
+        $sql->bindValue(':tipo', $usuario->getTipo(), PDO::PARAM_INT);
         $sql->bindValue(':endereco', $usuario->getEndereco());
         $sql->bindValue(':telefone', $usuario->getTelefone());
         $sql->bindValue(':cpf', $usuario->getCpf());
@@ -83,7 +72,7 @@ class UsuarioDao
     }
 
     // Buscar usuário por CodCli
-public function buscarUsuarioPorId($codCli): ?Usuario
+public function buscarUsuarioPorId($codCli)
 {
     $sql = $this->conexao->prepare("SELECT * FROM usuarios WHERE CodCli = :codCli");
     $sql->bindValue(':codCli', $codCli, PDO::PARAM_INT);
@@ -96,7 +85,7 @@ public function buscarUsuarioPorId($codCli): ?Usuario
             $row->CodCli,
             $row->Nome,
             $row->Email,
-            $row->is_admin,
+            $row->tipo,
             $row->Endereco,
             $row->Telefone,
             $row->CPF,
@@ -109,19 +98,8 @@ public function buscarUsuarioPorId($codCli): ?Usuario
 }
 
 // Atualizar usuário
-public function atualizarUsuario(Usuario $usuario): bool
-{
-    $sql = $this->conexao->prepare("
-        UPDATE usuarios SET 
-            Nome = :nome,
-            Email = :email,
-            Telefone = :telefone,
-            CPF = :cpf,
-            DtNascimento = :dtNascimento,
-            Endereco = :endereco,
-            is_admin = :is_admin
-        WHERE CodCli = :codCli
-    ");
+public function atualizarUsuario(Usuario $usuario){
+    $sql = $this->conexao->prepare("UPDATE usuarios SET Nome = :nome, Email = :email, Telefone = :telefone, CPF = :cpf, DtNascimento = :dtNascimento, Endereco = :endereco, tipo = :tipo WHERE CodCli = :codCli");
 
     $sql->bindValue(':nome', $usuario->getNome());
     $sql->bindValue(':email', $usuario->getEmail());
@@ -129,9 +107,16 @@ public function atualizarUsuario(Usuario $usuario): bool
     $sql->bindValue(':cpf', $usuario->getCpf());
     $sql->bindValue(':dtNascimento', $usuario->getDtNascimento());
     $sql->bindValue(':endereco', $usuario->getEndereco());
-    $sql->bindValue(':is_admin', $usuario->getAdmin(), PDO::PARAM_INT);
-    $sql->bindValue(':codCli', $usuario->getId(), PDO::PARAM_INT); // o getId deve pegar CodCli
-    return $sql->execute();
+    $sql->bindValue(':tipo', $usuario->getTipo());
+    $sql->bindValue(':codCli', $usuario->getId());
+
+    if($sql->execute()){ //Garante que um usuario foi atualizado
+        $busca = $this->conexao->prepare("SELECT * FROM usuarios WHERE CodCli = :codCli");
+        $busca->bindValue(':codCli', $usuario->getId());
+        $busca->execute();
+        return $busca->fetch(PDO::FETCH_OBJ);
+    }
+    return false;
 }
 
 // Excluir usuário

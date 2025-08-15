@@ -1,5 +1,5 @@
 <?php
-    require_once "includes/cabecalhoadmin.inc.php";
+    require_once "includes/cabecalho.inc.php";
     require_once "../classes/usuario.inc.php"; // Classe Usuario
     require_once "../dao/UsuarioDao.inc.php"; // Classe UsuarioDao
 
@@ -13,7 +13,7 @@ $usuarios = $usuarioDao->listarUsuarios();
         <div class="jumbotron jumbotron-fluid" id="jumbotron">
             <div class="container">
                 <h1 class="display-4">Gerenciador de Usuários</h1>
-                <p class="lead">Aqui você pode editar, excluir e buscar usuários por ID.</p>
+                <p class="lead">Aqui você pode criar, editar, excluir e buscar usuários.</p>
             </div>
         </div>
     </div>

@@ -1,29 +1,17 @@
 <?php
 require_once "../classes/servico.inc.php";
-require_once "includes/cabecalho.inc.php"; // Cabeçalho usuário comum
+require_once "includes/cabecalho.inc.php";
 $servicos = $_SESSION['servicos'] ?? [];
 ?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TEK - Serviços</title>
-  <!-- Presumo que o cabecalho.inc.php já inclui Bootstrap CSS e JS -->
-</head>
-<body>
 
-<!-- Seção inicial com imagem e texto -->
 <section class="container my-5">
   <div class="row align-items-center">
     <div class="col-md-6 col-12 p-0">
       <div class="conteudo-texto px-4 px-md-0">
-        <p class="lead">Seja bem-vindo à TEK,</p>
-        <h1 class="display-4">
+        <h1 class="display-4" style="font-size: 50px;">
           Transformamos ideias em<br />
-          <span class="text-primary">SOLUÇÕES DIGITAIS INTELIGENTES.</span>
+          <span class="text-primary" style="font-weight: bold;">SOLUÇÕES DIGITAIS INTELIGENTES.</span>
         </h1>
-        <p class="mb-4">Soluções rápidas e personalizadas para o seu dia a dia.</p>
       </div>
     </div>
     <div class="col-md-6 p-0">
@@ -34,7 +22,6 @@ $servicos = $_SESSION['servicos'] ?? [];
   </div>
 </section>
 
-<!-- Jumbotron cinza largo horizontalmente -->
 <div class="container-fluid px-0">
   <div class="jumbotron jumbotron-fluid bg-light py-4 mb-5" id="jumbotron">
     <div class="container">

@@ -1,10 +1,9 @@
 <?php
-session_start();
+
 require_once '../dao/UsuarioDao.inc.php';
 require_once '../classes/usuario.inc.php';
 
 if(isset($_REQUEST['opcao'])) {
-
     $opcao = $_REQUEST['opcao'];
     $id_usuario = $_REQUEST['id'] ?? null;
 
@@ -18,18 +17,18 @@ if(isset($_REQUEST['opcao'])) {
         $telefone = $_REQUEST['telefone'] ?? '';
         $cpf = $_REQUEST['cpf'] ?? '';
         $dtNascimento = $_REQUEST['dtNascimento'] ?? '';
-        $admin = $_REQUEST['admin'] ?? 0;
+        $tipo = $_REQUEST['tipo'] ?? 'C';
 
-        if(!empty($nome) && !empty($email) && !empty($senha)){
+        if(!empty($nome) && !empty($email) && !empty($senha) && !empty($endereco) && !empty($cpf) && !empty($dtNascimento)){
             $usuario = new Usuario();
-            $usuario->setUsuario(null, $nome, $email, $admin, $endereco, $telefone, $cpf, $dtNascimento, $senha);
+            $usuario->setUsuario(null, $nome, $email, $tipo, $endereco, $telefone, $cpf, $dtNascimento, $senha);
 
             if($usuarioDao->inserirUsuario($usuario)){
                 $ultimoId = $usuarioDao->getLastInsertId();
                 $usuario->setId($ultimoId);
                 header('Location: controllerUsuario.php?opcao=3&msg=Sucesso ao incluir usuário');
             } else {
-                header('Location: ../views/usuarios.php?erro=Erro ao incluir usuário');
+                header('Location: ../views/usuarios.php?erro=Erro ao incluir usuário'); 
             }
         } else {
             header('Location: ../views/usuarios.php?erro=Preencha os campos obrigatórios');
@@ -49,6 +48,7 @@ if(isset($_REQUEST['opcao'])) {
 
     else if ($opcao == "3") { // Listar usuários
         $usuarios = $usuarioDao->listarUsuarios();
+        session_start();
         $_SESSION['usuarios'] = $usuarios;
 
         if($_REQUEST['msg'] ?? null){
@@ -73,9 +73,9 @@ if(isset($_REQUEST['opcao'])) {
                 $telefone = $_REQUEST['telefone'] ?? '';
                 $cpf = $_REQUEST['cpf'] ?? '';
                 $dtNascimento = $_REQUEST['dtNascimento'] ?? '';
-                $admin = $_REQUEST['admin'] ?? 0;
+                $tipo = $_REQUEST['$tipo'] ?? 'C';
 
-                $usuario->setUsuario($id_usuario, $nome, $email, $admin, $endereco, $telefone, $cpf, $dtNascimento, $senha);
+                $usuario->setUsuario($id_usuario, $nome, $email, $tipo, $endereco, $telefone, $cpf, $dtNascimento, $senha);
 
                 if($usuarioDao->atualizarUsuario($usuario)){
                     header('Location: controllerUsuario.php?opcao=3&msg=Sucesso ao atualizar usuário');
@@ -88,62 +88,55 @@ if(isset($_REQUEST['opcao'])) {
         }
     }
 
-    else if ($opcao == "5") { // login
-    $email = $_REQUEST['pEmail'] ?? '';
-    $senha = $_REQUEST['pSenha'] ?? '';
-       
-    if (!empty($email) && !empty($senha)) {
+    else if ($opcao == "5") { // Login
+        $email = $_REQUEST['pEmail'];
+        $senha = $_REQUEST['pSenha'];
 
-        $usuario = $usuarioDao->buscarUsuarioPorEmailSenha($email, $senha);
-        if ($usuario) {
-            
-            $_SESSION['usuario_logado'] = $usuario;
+        $usuario = $usuarioDao->autenticar($email, $senha);
+        if ($usuario != null) {
+            session_start();
+            $_SESSION['usuario'] = $usuario;
 
-            // Se for admin, vai pra admin
-            if ($usuario->getAdmin()) {
-                header('Location: ../views/servicos.php');
+            if ($usuario->tipo == 'A') {
+                header('Location: controllerServico.php?opcao=3');
             } else {
                 header('Location: ../views/index.php');
             }
         } else {
             header('Location: ../views/login.php?erro=1');
         }
-    } else {
-        header('Location: ../views/login.php?erro=1');
     }
-}
 
-else if ($opcao == "6") { // Atualizar perfil do usuário logado
-    $usuario = $_SESSION['usuario_logado'] ?? null;
+    else if ($opcao == "6") { // Atualizar perfil do usuário logado
+            $usuario = $usuarioDao->buscarUsuarioPorId($_REQUEST['id']);
+            if($usuario){
+                $nome = $_REQUEST['nome'] ?? $usuario->getNome();
+                $email = $_REQUEST['email'] ?? $usuario->getEmail();
+                $senha = $_REQUEST['senha'] ?? $usuario->getSenha();
+                $telefone = $_REQUEST['telefone'] ?? $usuario->getTelefone();
+                $endereco = $_REQUEST['endereco'] ?? $usuario->getEndereco();
 
-    if ($usuario) {
-        $nome = $_REQUEST['nome'] ?? $usuario->getNome();
-        $email = $_REQUEST['email'] ?? $usuario->getEmail();
-        $senha = $_REQUEST['senha'] ?? $usuario->getSenha();
-        $telefone = $_REQUEST['telefone'] ?? $usuario->getTelefone();
+                $usuario->setUsuario($usuario->getId(), $nome, $email, $usuario->getTipo(), $endereco, $telefone, $usuario->getCpf(), $usuario->getDtNascimento(), $senha);
 
-        $usuario->setUsuario(
-            $usuario->getId(),
-            $nome,
-            $email,
-            0, // sem admin
-            '', // endereco opcional
-            $telefone,
-            '', // cpf opcional
-            '', // dtNascimento opcional
-            $senha
-        );
-
-        if ($usuarioDao->atualizarUsuario($usuario)) {
-            $_SESSION['usuario_logado'] = $usuario; // atualiza a sessão
-            header('Location: ../views/editarPerfil.php?msg=Perfil atualizado com sucesso');
-        } else {
-            header('Location: ../views/editarPerfil.php?erro=Erro ao atualizar perfil');
-        }
-    } else {
-        header('Location: ../views/login.php');
+                if ($usuario = $usuarioDao->atualizarUsuario($usuario)) {
+                    session_start();
+                    $_SESSION['usuario'] = $usuario; // Atualiza a sessão com os novos dados
+                    header('Location: ../views/editarPerfil.php?msg=Perfil atualizado com sucesso');
+                }
+                else {
+                    header('Location: ../views/servicos.php?opcao=3&erro=Erro ao atualizar perfil');
+                }
+            }
+            else{
+                header('Location: ../views/servicos.php?erro=Usuário não encontrado');
+            }
     }
-}
+
+    else if($opcao == "7"){ // Logout
+        session_start();
+        unset($_SESSION['usuario']);
+        header("Location:../views/index.php");
+    }
 
 }
 ?>

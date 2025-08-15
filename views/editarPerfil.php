@@ -1,14 +1,8 @@
 <?php
-require_once "../classes/usuario.inc.php"; // ⬅ classe antes do session_start()
-// já inicia a sessão
-
-$usuarioLogado = $_SESSION['usuario_logado'] ?? null;
-
-if (!$usuarioLogado) {
-    header('Location: login.php');
-    exit;
-}
+require_once "../classes/usuario.inc.php";
 require_once "includes/cabecalho.inc.php"; 
+
+$usuario = $_SESSION['usuario'];
 $msg = $_REQUEST['msg'] ?? '';
 $erro = $_REQUEST['erro'] ?? '';
 ?>
@@ -17,33 +11,39 @@ $erro = $_REQUEST['erro'] ?? '';
     <h2>Editar Perfil</h2>
 
     <?php if ($msg): ?>
-        <div class="alert alert-success"><?= htmlspecialchars($msg) ?></div>
+        <div class="alert alert-success"><?= $msg ?></div>
     <?php endif; ?> 
 
     <?php if ($erro): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($erro) ?></div>
+        <div class="alert alert-danger"><?= $erro ?></div>
     <?php endif; ?> 
 
     <form action="../controllers/controllerUsuario.php" method="post" class="mt-4">
         <input type="hidden" name="opcao" value="6">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($usuarioLogado->getId()) ?>">
+        <input type="hidden" name="id" value="<?= $usuario->CodCli ?>">
 
         <div class="form-group">
             <label for="nome">Nome completo</label>
             <input type="text" id="nome" name="nome" class="form-control" required
-                   value="<?= htmlspecialchars($usuarioLogado->getNome()) ?>">
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" required
-                   value="<?= htmlspecialchars($usuarioLogado->getEmail()) ?>">
+                   value="<?= $usuario->Nome ?>">
         </div>
 
         <div class="form-group">
             <label for="telefone">Telefone</label>
             <input type="text" id="telefone" name="telefone" class="form-control"
-                   value="<?= htmlspecialchars($usuarioLogado->getTelefone()) ?>">
+                   value="<?= $usuario->Telefone ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="endereco">Endereco</label>
+            <input type="text" id="endereco" name="endereco" class="form-control"
+                   value="<?= $usuario->Endereco ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required
+                   value="<?= $usuario->Email ?>">
         </div>
 
         <div class="form-group">

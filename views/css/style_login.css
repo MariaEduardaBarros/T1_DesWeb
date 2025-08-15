@@ -1,35 +1,20 @@
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-
-  .col,
-  [class*="col-"] {
-    padding-right: 0;
-    padding-left: 0;
-  }
+.login #login-left { 
+  height: 90vh; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
 }
 
-.login {
-  background-color: #0b103f;
-}
-
-#login-left {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#login-right {
+.login #login-right {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  height: 90vh;
 }
 
-#content-login {
+.login #content-login {
   padding: 2rem;
   background-color: #e1e8f0;
   border-radius: 30px;
@@ -40,25 +25,25 @@
   align-items: center;
 }
 
-form {
+.login #form-login {
   width: 100%;
 }
 
-form .form-group {
+.login form .formulario {
   text-align: left;
 }
 
-img {
-  width: 60%;
-  height: 60%;
+.login #login-img {
+  width: 70%;
+  height: 70%;
 }
 
-#logo {
+.login #logo {
   width: 20%;
   height: 25%;
 }
 
-h1 {
+.login #title-login {
   color: #0b103f;
   font-weight: bold;
   font-size: 50px;
@@ -66,26 +51,26 @@ h1 {
   margin-bottom: 0;
 }
 
-p:first-of-type {
+.login #subtitle-login {
   color: #525b68;
   text-align: center;
   font-size: 16px;
 }
 
-label {
-  color: #0B3C5D;
-  font-size: 18px;
-  font-weight: 600;
+.login .formulario label{
+  color: #0B3C5D !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
 }
 
-.form-control {
+.login .formulario-input {
   padding: 0.8rem;
   border-radius: 10px;
   border: 1px solid #ccc;
   transition: all 0.3s ease;
 }
 
-.btn {
+.login #btn-login {
   background-color: #0b103f;
   color: #fff;
   padding: 0.6rem;
@@ -96,48 +81,48 @@ label {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn:hover {
+.login #btn-login:hover {
   background-color: #0a1685;
   color: #fff;
   transform: scale(1.02);
 }
 
-hr {
+.login hr {
   border: none;
   height: 1px;
   background-color: #0b103f;
   width: 100%;
 }
 
-#cadastro {
+.login #cadastro {
   text-align: center;
   font-size: 18px;
 }
 
-.login-error {
+.login .login-error {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.login-error p {
+.login .login-error p {
   color: red;
   font-weight: 600;
 }
 
-#forget-pass {
+.login #forget-pass {
   text-align: right;
   margin-bottom: 1rem;
 }
 
-a {
+.login .login-link {
   color: #0b103f;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
-a:hover {
+.login .login-link a:hover {
   color: #054085;
   text-decoration: underline;
 }
