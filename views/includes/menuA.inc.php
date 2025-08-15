@@ -11,14 +11,13 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     
                     <div class="navbar-nav mx-auto">
-                        <a class="nav-item nav-link" href="index.php">Home </a>
+                        <a class="nav-item nav-link" href="index.php">Home</a>
+                        <a class="nav-item nav-link" href="../controllers/controllerServico.php?opcao=6">Serviços</a>
                         <a class="nav-item nav-link" href="../controllers/controllerServico.php?opcao=3">Gerenciador de Serviços </a>
                         <a class="nav-item nav-link" href="usuarios.php">Gerenciador de Usuários</a>
                     </div>
 
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></a>
-                        
                         <?php
                             if(!isset($_SESSION['usuario']))
                             {

@@ -127,6 +127,36 @@ public function excluirUsuario($codCli): bool
     return $sql->execute();
 }
 
+public function buscarUsuarioPorEmail($email) {
+        $sql = $this->conexao->prepare("SELECT * FROM usuarios WHERE Email = :email");
+        $sql->bindValue(':email', $email);
+        $sql->execute();
+
+        $dados = $sql->fetch(PDO::FETCH_ASSOC);
+        if($dados) {
+            $usuario = new Usuario();
+            $usuario->setUsuario(
+                $dados['CodCli'],
+                $dados['Nome'],
+                $dados['Email'],
+                $dados['tipo'],
+                $dados['Endereco'],
+                $dados['Telefone'],
+                $dados['CPF'],
+                $dados['DtNascimento'],
+                $dados['Senha']
+            );
+            return $usuario;
+        }
+        return null;
 }
 
+public function atualizarSenha($email, $senha) {
+    $sql = $this->conexao->prepare("UPDATE usuarios SET Senha = :senha WHERE Email = :email");
+    $sql->bindValue(':senha', $senha);
+    $sql->bindValue(':email', $email);
+    return $sql->execute();
+}
+
+}
 ?>

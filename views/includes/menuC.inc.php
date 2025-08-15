@@ -11,8 +11,8 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     
                     <div class="navbar-nav mx-auto">
-                        <a class="nav-item nav-link" href="index.php">Home </a>
-                        <a class="nav-item nav-link" href="index.php">Serviços </a>
+                        <a class="nav-item nav-link" href="index.php">Home</a>
+                        <a class="nav-item nav-link" href="../controllers/controllerServico.php?opcao=6">Serviços</a>
                         <?php
                             if(isset($_SESSION['usuario'])){
                         ?>
