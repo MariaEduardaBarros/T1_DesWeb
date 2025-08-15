@@ -17,7 +17,7 @@
                                 <form action="../controllers/controllerUsuario.php" method="get" id="form-login">
                                     <div class="form-group formulario">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control formulario-input" id="email" name="pEmail" placeholder="Digite seu email" required><br>
+                                        <input type="email" class="form-control formulario-input" id="email" name="pEmail" placeholder="Digite seu email" required>
                                     </div>
                                     <div class="form-group formulario">
                                         <label for="senha">Senha</label>
@@ -35,7 +35,7 @@
                                         ?>
                                         <p><?=$msg ?></p>
                                         <div id="forget-pass">
-                                            <a href="#" class="login-link">Esqueceu a senha?</a>
+                                            <a href="recuperarSenha.php" class="login-link">Esqueceu a senha?</a>
                                         </div>
                                     </div>
                                     <button id="btn-login" type="submit" class="btn w-100">Entrar</button>
