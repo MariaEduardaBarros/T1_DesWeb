@@ -40,7 +40,13 @@
                                     </div>
                                     <button id="btn-login" type="submit" class="btn w-100">Entrar</button>
 
-                                    <input type="hidden" value="5" name="opcao">
+                                    <?php
+                                        if(isset($_REQUEST['status']) && $_REQUEST['status'] == 1) {
+                                    ?>
+                                            <input type="hidden" value="9" name="opcao">
+                                            <input type="hidden" name="status" value="1">
+                                    <?php } ?>
+                                            <input type="hidden" value="5" name="opcao">
                                 </form>
 
                                 <hr>
