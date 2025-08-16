@@ -83,8 +83,8 @@
                             <td><?= $servico->getDescricao() ?></td>
                             <td>R$<?= number_format($servico->getValor(), 2, ',', '.')?></td>
                             <td>
-                                <select name="data_servico[<?= $index ?>]" class="form-control">
-                                    <option selected>Escolha uma data...</option>
+                                <select name="data_servico_<?= $index ?>" class="form-control">
+                                    <option value="" selected>Escolha uma data...</option>
                                     <?php
                                         foreach ($servico->getDataServico() as $data) { ?>
                                             <option value="<?= $data ?>"><?= formatarData($data)?></option>

@@ -61,7 +61,7 @@ class UsuarioDao
     ");
         $sql->bindValue(':nome', $usuario->getNome());
         $sql->bindValue(':email', $usuario->getEmail());
-        $sql->bindValue(':tipo', $usuario->getTipo(), PDO::PARAM_INT);
+        $sql->bindValue(':tipo', $usuario->getTipo());
         $sql->bindValue(':endereco', $usuario->getEndereco());
         $sql->bindValue(':telefone', $usuario->getTelefone());
         $sql->bindValue(':cpf', $usuario->getCpf());
