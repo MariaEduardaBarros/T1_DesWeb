@@ -1,12 +1,12 @@
 <?php
     require_once "../utils/funcoesUteis.php";
     require_once "../classes/usuario.inc.php";
-    require_once "../classes/servico.inc.php";
+    require_once "../classes/ItemCarrinho.inc.php";
     require_once "includes/cabecalho.inc.php";
 
     $usuario = $_SESSION['usuario'];
     $total =  $_SESSION['total'];
-    $carrinho = $_SESSION['carrinho'];
+    $itensCarrinho = $_SESSION['itensCarrinho'];
 ?>
 
 <div class="container mt-5">
@@ -15,9 +15,9 @@
     <div class="card mb-4">
         <div class="card-header">Dados do Cliente</div>
         <div class="card-body">
-            <p><strong>Nome:</strong><?= $usuario->Nome?> </p>
-            <p><strong>CPF:</strong> <?= $usuario->CPF?></p>
-            <p><strong>Endereco:</strong> <?= $usuario->Endereco?></p>
+            <p><strong>Nome: </strong><?= $usuario->Nome?> </p>
+            <p><strong>CPF: </strong><?= $usuario->CPF?></p>
+            <p><strong>Endereco: </strong><?= $usuario->Endereco?></p>
         </div>
     </div>
 
@@ -36,15 +36,14 @@
                 </thead>
                 <tbody>
                     <?php
-                        foreach($carrinho as $index => $servico) {
-                            $data = $_SESSION['data'][$index];
+                        foreach($itensCarrinho as $item) {
                     ?>
                     <tr>
-                        <td><?=$servico->getId()?></td>
-                        <td><?=$servico->getNome()?></td>
-                        <td><?=$servico->getDescricao()?></td>
-                        <td><?= formatarData($data) ?></td>
-                        <td><?=$servico->getValor() ?></td>
+                        <td><?=$item->getServico()->getId()?></td>
+                        <td><?=$item->getServico()->getNome()?></td>
+                        <td><?=$item->getServico()->getDescricao()?></td>
+                        <td><?= formatarData($item->getData()) ?></td>
+                        <td><?=$item->getServico()->getValor() ?></td>
                     </tr>
                    <?php } ?>
                 </tbody>

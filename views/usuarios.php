@@ -177,11 +177,11 @@ $usuarios = $usuarioDao->listarUsuarios();
           </div>
           <div class="form-group">
             <label for="cpfNovo">CPF</label>
-            <input type="text" class="form-control" id="cpfNovo" name="cpf">
+            <input type="text" class="form-control" id="cpfNovo" name="cpf" required>
           </div>
           <div class="form-group">
             <label for="dtNascimentoNovo">Data de Nascimento</label>
-            <input type="date" class="form-control" id="dtNascimentoNovo" name="dtNascimento">
+            <input type="date" class="form-control" id="dtNascimentoNovo" name="dtNascimento" required>
           </div>
           <div class="form-group">
             <label for="emailNovo">Email</label>
@@ -193,9 +193,9 @@ $usuarios = $usuarioDao->listarUsuarios();
           </div>
           <div class="form-group">
             <label for="adminNovo">Admin</label>
-            <select class="form-control" id="adminNovo" name="admin" required>
-              <option value="0">Não</option>
-              <option value="1">Sim</option>
+            <select class="form-control" id="adminNovo" name="tipo" required>
+              <option value="C">Não</option>
+              <option value="A">Sim</option>
             </select>
           </div>
         </div>

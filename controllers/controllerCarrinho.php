@@ -1,5 +1,6 @@
 <?php
 require_once "../classes/servico.inc.php";
+require_once "../classes/ItemCarrinho.inc.php";
 require_once "../dao/servicoDao.inc.php";
 
 $opcao = (int) ($_REQUEST['opcao']);
@@ -74,18 +75,45 @@ else if($opcao == 4){ //Verifica se o carrinho está vazio
         header("Location: ../views/carrinho.php");
     }
 }
+
 else if($opcao == 5){ //Finalizar o pedido
     session_start();
+    $servicoDao = new ServicoDao();
 
-    $_SESSION['total'] = (float)$_REQUEST['total'];
-    $_SESSION['data'] = $_REQUEST['data_servico'];
+    $total = (float)$_REQUEST['total'];
+    $carrinho = array_values($_SESSION['carrinho']);
+    $quantidade = count($_SESSION['carrinho']);
+    $usuario = $_SESSION['usuario'];
+
+    if($quantidade == 0){
+        header("Location: ../views/carrinho.php?status=1");
+        exit;
+    }
+
+    $itensCarrinho = array();
+    $datasServicos = array();
+
+    for($i = 0; $i < $quantidade; $i++){
+        $dataEscolhida = $_REQUEST['data_servico_' . $i];
+
+        if(empty($dataEscolhida)){   
+            header("Location: ../views/carrinho.php?erro=Você deve escolher uma data para cada serviço");
+            exit; 
+        }
+
+        $itensCarrinho[] = new ItemCarrinho($carrinho[$i], $dataEscolhida);
+    }
 
     if(isset($_SESSION['usuario'])){
+        $_SESSION['usuario'] = $usuario;
+        $_SESSION['total'] = $total;
+        $_SESSION['itensCarrinho'] = $itensCarrinho;
         header("Location: ../views/dadosCompra.php");
     }else{
         header("Location: ../views/login.php?status=1");
     }
 }
+
 else if($opcao == 6){ //Listar serviços no carrinho
     session_start();
     if(!isset($_SESSION['carrinho'])){
