@@ -2,57 +2,81 @@
 require_once "../classes/servico.inc.php";
 require_once "../dao/servicoDao.inc.php";
 
-$opcao = (int) $_REQUEST['opcao'];
+$opcao = (int) ($_REQUEST['opcao']);
 
-if($opcao == 1) { // Adicionar ao carrinho
-    $id = $_REQUEST['id'];
-    $servicoDao = new ServicoDao();
-    $servico = $servicoDao->buscarServicoPorId($id);   
+function array_search2($chave, $vetor){
+    $index = -1;
 
+    for($i = 0; $i<count($vetor);$i++){
+        if($chave == $vetor[$i]->getId()){
+            $index = $i;
+            break;
+        }
+    }
+    return $index;
+}
+
+if($opcao == 1){ //Adiciona serviço ao carrinho
+        $id = (int)$_REQUEST['id'] ?? null;
+        $servicoDao = new ServicoDao();
+        $servico = $servicoDao->buscarServicoPorId($id);
+
+        session_start();
+        if(isset($_SESSION['carrinho'])){
+            $carrinho = $_SESSION['carrinho'];
+        }
+        else{
+            $carrinho = array();
+        }
+
+        $key = array_search2($servico->getId(), $carrinho);
+        if($key != -1){
+            header("Location: ../views/carrinho.php?erro=O serviço já está no carrinho");
+            exit;
+        }
+        else{
+            $carrinho[] = $servico;
+        }
+
+        $_SESSION['carrinho'] = $carrinho;
+
+        header("Location: ../views/carrinho.php");
+}
+else if($opcao == 2){ //Remove serviço do carrinho
+    $index = (int)$_REQUEST['index']; 
+    
     session_start();
-    if(isset($_SESSION['carrinho'])) {
-        $carrinho = $_SESSION['carrinho'];
-    } else {
-        $carrinho = array();
-    }
+    $carrinho = $_SESSION['carrinho'];
+    unset($carrinho[$index]);
+    sort($carrinho);
 
-    // Verifica se o carrinho já atingiu o limite
-    if(count($carrinho) >= 5) {
-        header("Location: ../views/servicosVenda.php?erro=1"); // Limite de 5 serviços no carrinho
-    }
-
-    // Verifica se o serviço já está no carrinho
-    /*$idsCarrinho = array_map(fn($item) => $item->getServico()->getId(), $carrinho);
-    if(in_array($id, $idsCarrinho)) {
-        header("Location: ../views/servicosVenda.php?erro=2"); // Serviço já está no carrinho
-    }*/
-
-    // Adiciona o serviço ao carrinho
-    $carrinho[] = $servico;
     $_SESSION['carrinho'] = $carrinho;
-
-    header("Location: ../views/carrinho.php"); // Mensagem: serviço adicionado
+    if(empty($carrinho)){
+        header("Location: controllerCarrinho.php?opcao=4");
+    }
+    header("Location: ../views/carrinho.php?msg=Serviço removido do carrinho com sucesso");
 }
-
-
-if ($opcao == 2) { // Adicionar ao carrinho
-    $idServico = $_GET['id'] ?? null;
-
-    if ($idServico) {
-        // Inicializa o carrinho na sessão se não existir
-        if (!isset($_SESSION['carrinho'])) {
-            $_SESSION['carrinho'] = [];
-        }
-
-        // Adiciona o serviço ao carrinho (você pode controlar quantidade se quiser)
-        if (!in_array($idServico, $_SESSION['carrinho'])) {
-            $_SESSION['carrinho'][] = $idServico;
-        }
-
-        // Redireciona de volta para a página de serviços com o ID do item adicionado
-        header("Location: ../views/servicosVenda.php?id=$idServico&from=servicosVenda");
-        exit;
+else if($opcao == 3){ //Esvazia o carrinho
+    session_start();
+    unset($_SESSION['carrinho']);
+    header("Location: ../views/carrinho.php?status=1");
+}
+else if($opcao == 4){ //Verifica se o carrinho está vazio
+    if((!isset($_SESSION['carrinho']) || sizeof($_SESSION['carrinho'])==0)){
+        header("Location: ../views/carrinho.php?status=1");
+    }
+    else{
+        header("Location: ../views/carrinho.php");
     }
 }
+else if($opcao == 5){ //Finalizar o pedido
+    session_start();
 
-// Aqui você pode tratar outras opções do controller
+    $_SESSION['total'] = (float)$_REQUEST['total'];
+
+    if(isset($_SESSION['usuario'])){
+        header("Location: ../views/dadosCompra.php");
+    }else{
+        header("Location: ../views/login.php?status=1");
+    }
+}

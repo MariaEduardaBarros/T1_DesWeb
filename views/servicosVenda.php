@@ -2,7 +2,7 @@
 require_once "../classes/servico.inc.php";
 require_once "includes/cabecalho.inc.php";
 
-$servicos = $_SESSION['servicos'];
+$servicos = $_SESSION['servicos'] ?? array();
 ?>
 
 <div class="container-fluid px-0">
