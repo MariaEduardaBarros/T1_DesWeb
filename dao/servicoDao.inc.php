@@ -29,6 +29,10 @@ class ServicoDao {
         $servico = new Servico();   
         $servico->setId($id_servico);
         $servico->setServico($row->nome, $row->descricao, $row->valor, $row->id_tipo);
+
+        $datas = $this->buscarDatasPorServicoId($id_servico);
+        $servico->setDatasServico($datas);
+
         return $servico;
     }
 

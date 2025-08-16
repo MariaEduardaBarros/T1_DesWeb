@@ -30,7 +30,7 @@
             return $this->descricao;
         }
 
-        public function getvalor() {
+        public function getValor() {
             return $this->valor;
         }
 
