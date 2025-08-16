@@ -25,7 +25,6 @@
                             }else{
                                 include_once "modal.inc.php";
                             }
-                        
                         ?>        
                     </div>
                 </div>
