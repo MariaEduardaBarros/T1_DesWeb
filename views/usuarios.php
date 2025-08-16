@@ -62,7 +62,7 @@ $usuarios = $usuarioDao->listarUsuarios();
                 </div>
             <?php } ?>
 
-            <table class="table table-hover" id="tabela-usuarios">
+            <table class="table table-hover" id="tabela-servicos">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
