@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="../controllers/controllerCarrinho.php?opcao=1">
+                        <a class="nav-item nav-link" href="../controllers/controllerCarrinho.php?opcao=6">
                             <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
                             <?php 
                                 $count = count($_SESSION['carrinho'] ?? []);

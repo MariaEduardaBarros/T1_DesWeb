@@ -28,10 +28,14 @@ if($opcao == 1){ //Adiciona serviço ao carrinho
         else{
             $carrinho = array();
         }
-
+        
         $key = array_search2($servico->getId(), $carrinho);
         if($key != -1){
-            header("Location: ../views/carrinho.php?erro=O serviço já está no carrinho");
+            header("Location: ../views/carrinho.php?erro=O serviço já está no carrinho.");
+            exit;
+        }
+        else if(count($carrinho) >= 5){
+            header("Location: ../views/carrinho.php?erro=O carrinho já está cheio! Finalize o pedido ou esvazie o carrinho antes de adicionar mais serviços.");
             exit;
         }
         else{
@@ -53,6 +57,7 @@ else if($opcao == 2){ //Remove serviço do carrinho
     $_SESSION['carrinho'] = $carrinho;
     if(empty($carrinho)){
         header("Location: controllerCarrinho.php?opcao=4");
+        exit;
     }
     header("Location: ../views/carrinho.php?msg=Serviço removido do carrinho com sucesso");
 }
@@ -73,10 +78,20 @@ else if($opcao == 5){ //Finalizar o pedido
     session_start();
 
     $_SESSION['total'] = (float)$_REQUEST['total'];
+    $_SESSION['data'] = $_REQUEST['data_servico'];
 
     if(isset($_SESSION['usuario'])){
         header("Location: ../views/dadosCompra.php");
     }else{
         header("Location: ../views/login.php?status=1");
     }
+}
+else if($opcao == 6){ //Listar serviços no carrinho
+    session_start();
+    if(!isset($_SESSION['carrinho'])){
+        header("Location: controllerCarrinho.php?opcao=4");
+        exit;
+    }
+    $carrinho = $_SESSION['carrinho'];
+    header("Location: ../views/carrinho.php");
 }

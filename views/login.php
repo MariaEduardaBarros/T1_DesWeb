@@ -45,8 +45,9 @@
                                     ?>
                                             <input type="hidden" value="9" name="opcao">
                                             <input type="hidden" name="status" value="1">
-                                    <?php } ?>
+                                    <?php } else {?>
                                             <input type="hidden" value="5" name="opcao">
+                                    <?php } ?>
                                 </form>
 
                                 <hr>
