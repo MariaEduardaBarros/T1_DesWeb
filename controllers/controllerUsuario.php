@@ -88,7 +88,7 @@ if(isset($_REQUEST['opcao'])) {
         }
     }
 
-    else if ($opcao == "5") { // Login
+    else if ($opcao == "5" || $opcao == "9") { // Login
         $email = $_REQUEST['pEmail'];
         $senha = $_REQUEST['pSenha'];
 
@@ -100,10 +100,18 @@ if(isset($_REQUEST['opcao'])) {
             if ($usuario->tipo == 'A') {
                 header('Location: controllerServico.php?opcao=3');
             } else {
-                header('Location: ../views/index.php');
+                if($opcao == "5") {
+                    header('Location: controllerServico.php?opcao=6');
+                } else if($opcao == "9") {
+                    header('Location: ../views/dadosCompra.php');
+                }
             }
         } else {
-            header('Location: ../views/login.php?erro=1');
+            if($opcao == "9" && isset($_REQUEST['status'])) {
+                header('Location: ../views/login.php?erro=1&status=1');
+            } else {
+                header('Location: ../views/login.php?erro=1');
+            }
         }
     }
 
