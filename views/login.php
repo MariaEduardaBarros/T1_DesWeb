@@ -51,7 +51,7 @@
                                 </form>
 
                                 <hr>
-                                <p id="cadastro">Não tem uma conta? <a href="#" class="login-link">Cadastre-se</a></p>
+                                <p id="cadastro">Não tem uma conta? <a href="cadastro.php" class="login-link">Cadastre-se</a></p>
                         </div>
                 </div>
             </div>
