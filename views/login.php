@@ -1,61 +1,63 @@
 <?php
-    require_once "includes/cabecalho.inc.php";
+require_once "includes/cabecalho.inc.php";
 ?>
-    <div class="container-fluid login">
-        <div class="row no-gutters">
-            <div class="col-6">
-                <div id="login-left">
-                        <img src="imagens/login-animate.svg" id="login-img">
-                </div>
-            </div>
-            <div class="col-6">
-                <div id="login-right">
-                        <div id="content-login">
-                                <h1 id="title-login">LOGIN</h1>
-                                <p>Entre com suas credenciais</p>
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center pt-5">
+    <div class="row w-100 justify-content-center">
 
-                                <form action="../controllers/controllerUsuario.php" method="get" id="form-login">
-                                    <div class="form-group formulario">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control formulario-input" id="email" name="pEmail" placeholder="Digite seu email" required>
-                                    </div>
-                                    <div class="form-group formulario">
-                                        <label for="senha">Senha</label>
-                                        <input type="password" class="form-control formulario-input" id="Senha" name="pSenha" placeholder="Digite sua senha" required>
-                                    </div>
-                                    <div class="login-error">
-                                        <?php
-                                            $msg = "&nbsp;";
-                                            if(isset($_REQUEST['erro'])){
-                                                $tipo = (int)$_REQUEST['erro'];
-                                                if($tipo == 1){
-                                                    $msg = "Login incorreto!";
-                                                }
-                                            }
-                                        ?>
-                                        <p><?=$msg ?></p>
-                                        <div id="forget-pass">
-                                            <a href="recuperarSenha.php" class="login-link">Esqueceu a senha?</a>
-                                        </div>
-                                    </div>
-                                    <button id="btn-login" type="submit" class="btn w-100">Entrar</button>
+        <div class="col-lg-6 col-md-6 d-none d-md-flex justify-content-center align-items-center mb-4 mb-md-0">
+            <img src="imagens/login-animate.svg" class="img-fluid w-75" alt="Imagem ilustrativa de login">
+        </div>
 
-                                    <?php
-                                        if(isset($_REQUEST['status']) && $_REQUEST['status'] == 1) {
-                                    ?>
-                                            <input type="hidden" value="9" name="opcao">
-                                            <input type="hidden" name="status" value="1">
-                                    <?php } else {?>
-                                            <input type="hidden" value="5" name="opcao">
-                                    <?php } ?>
-                                </form>
+        <div class="col-lg-4 col-md-6 d-flex justify-content-center align-items-center py-5 py-md-0">
+            <div class="p-4 p-md-5 bg-white shadow w-100">
 
-                                <hr>
-                                <p id="cadastro">Não tem uma conta? <a href="#" class="login-link">Cadastre-se</a></p>
-                        </div>
-                </div>
+                <h1 class="text-center fw-bold mb-2" style="font-size: 2.5rem; font-weight: bold; color: #14213D;">LOGIN</h1>
+                <p class="text-center text-secondary mb-4">Entre com suas credenciais</p>
+
+                <form action="../controllers/controllerUsuario.php" method="get">
+                    <div class="mb-3 text-start">
+                        <label for="email" class="form-label fw-semibold" style="color: #14213D;"><strong>Email</strong></label>
+                        <input type="email" class="form-control" id="email" name="pEmail" placeholder="Digite seu email" required>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="senha" class="form-label fw-semibold" style="color: #14213D;"><strong>Senha</strong></label>
+                        <input type="password" class="form-control" id="Senha" name="pSenha" placeholder="Digite sua senha" required>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <?php
+                        $msg = "&nbsp;";
+                        if(isset($_REQUEST['erro'])){
+                            $tipo = (int)$_REQUEST['erro'];
+                            if($tipo == 1){
+                                $msg = "Login incorreto!";
+                            }
+                        }
+                        ?>
+                        <p class="text-danger fw-semibold mb-0"><?=$msg ?></p>
+                        <a href="recuperarSenha.php" class="text-decoration-none" style="color: #14213D;">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="submit" class="btn w-100 fw-bold mb-3" style="background-color: #14213D; color: #fff;"><strong>Entrar</strong></button>
+
+                    <?php
+                        if(isset($_REQUEST['status']) && $_REQUEST['status'] == 1) {
+                    ?>
+                            <input type="hidden" value="9" name="opcao">
+                            <input type="hidden" name="status" value="1">
+                    <?php } else {?>
+                            <input type="hidden" value="5" name="opcao">
+                    <?php } ?>
+                </form>
+
+                <hr class="my-3">
+
+                <p class="text-center mb-0">Não tem uma conta? 
+                    <a href="cadastro.php" class="text-decoration-none fw-semibold" style="color: #14213D;">Cadastre-se</a>
+                </p>
+
             </div>
         </div>
+
     </div>
-</body>
-</html>
+</div>

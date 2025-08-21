@@ -9,27 +9,109 @@ if(isset($_REQUEST['opcao'])) {
 
     $usuarioDao = new UsuarioDao();
 
-    if ($opcao == "1") { // Inserir novo usuário
-        $nome = $_REQUEST['nome'] ?? '';
-        $email = $_REQUEST['email'] ?? '';
-        $senha = $_REQUEST['senha'] ?? '';
-        $endereco = $_REQUEST['endereco'] ?? '';
+    if ($opcao == "1" || $opcao == "10") { // Inserir novo usuário
+        $nome = $_REQUEST['nome'];
+        $email = $_REQUEST['email'];
+        $senha = $_REQUEST['senha'];
+        $endereco = $_REQUEST['endereco'];
         $telefone = $_REQUEST['telefone'] ?? '';
-        $cpf = $_REQUEST['cpf'] ?? '';
-        $dtNascimento = $_REQUEST['dtNascimento'] ?? '';
+        $cpf = $_REQUEST['cpf'];
+        $dtNascimento = $_REQUEST['dtNascimento'];
         $tipo = $_REQUEST['tipo'] ?? 'C';
+        
+        $informacoes = new Usuario();
+        $informacoes->setUsuario(null, $nome, $email, $tipo, $endereco, $telefone, $cpf, $dtNascimento, $senha);
 
+        session_start();
+        if($opcao == "10") { //Valida senha de confirmação
+            $confirmacaoSenha = $_REQUEST['confirmacaoSenha'];
+
+            if($senha != $confirmacaoSenha) {
+                $informacoes->setSenha('');
+                $_SESSION['informacoes'] = $informacoes;
+                header('Location: ../views/cadastro.php?erro=Senhas não coincidem.');
+                exit;
+            }
+        }
+        if(strlen($cpf) != 11){ // Valida CPF
+            $informacoes->setCpf('');
+            $_SESSION['informacoes'] = $informacoes;
+            if($opcao == "10") {
+                header('Location: ../views/cadastro.php?erro=CPF inválido.');
+                exit;
+            } else {
+                header('Location: ../views/usuarios.php?erro=CPF inválido.');
+                exit;
+            }
+        }
+        //Valida idade minima (16 anos)
+        $dtNascimentoObj = DateTime::createFromFormat('Y-m-d', $dtNascimento);
+        $hoje = new DateTime();
+        $idade = $hoje->diff($dtNascimentoObj)->y;
+
+        if ($idade < 16) {
+            $informacoes->setDtNascimento('');
+            $_SESSION['informacoes'] = $informacoes;
+
+            if($opcao == "10") {
+                header('Location: ../views/cadastro.php?erro=Você deve ter pelo menos 16 anos para se cadastrar.');
+                exit;
+            } else {
+                header('Location: ../views/usuarios.php?erro=Usuário deve ter pelo menos 16 anos.');
+                exit;
+            }
+        }
+        // Verifica se o CPF e o email já existem
+        if($usuarioDao->verificarCpfExistente($cpf)){
+            $informacoes->setCpf('');
+            $_SESSION['informacoes'] = $informacoes;
+
+            if($opcao == "10") {
+                header('Location: ../views/cadastro.php?erro=CPF já cadastrado.');
+                exit;
+            } else {
+                header('Location: ../views/usuarios.php?erro=CPF já cadastrado.');
+                exit;
+            }
+        }
+        if($usuarioDao->verificarEmailExistente($email)){
+            $informacoes->setEmail('');
+            $_SESSION['informacoes'] = $informacoes;
+            if($opcao == "10") {
+                header('Location: ../views/cadastro.php?erro=Email já cadastrado.');
+                exit;
+            } else {
+                header('Location: ../views/usuarios.php?erro=Email já cadastrado.');
+                exit;
+            }
+        }
+        
         if(!empty($nome) && !empty($email) && !empty($senha) && !empty($endereco) && !empty($cpf) && !empty($dtNascimento)){
             $usuario = new Usuario();
             $usuario->setUsuario(null, $nome, $email, $tipo, $endereco, $telefone, $cpf, $dtNascimento, $senha);
+            
+            if($opcao == "1"){
+                if($usuarioDao->inserirUsuario($usuario)){
+                    $ultimoId = $usuarioDao->getLastInsertId();
+                    $usuario->setId($ultimoId);
 
-            if($usuarioDao->inserirUsuario($usuario)){
-                $ultimoId = $usuarioDao->getLastInsertId();
-                $usuario->setId($ultimoId);
-                header('Location: controllerUsuario.php?opcao=3&msg=Sucesso ao incluir usuário');
-            } else {
-                header('Location: ../views/usuarios.php?erro=Erro ao incluir usuário'); 
-            }
+                    header('Location: controllerUsuario.php?opcao=3&msg=Sucesso ao incluir usuário');
+                    exit;
+                }else{
+                    header('Location: ../views/usuarios.php?erro=Erro ao incluir usuário');
+                    exit;
+                }
+            } else if($opcao == "10") {
+                if($usuarioDao->inserirUsuario($usuario)){
+                    $ultimoId = $usuarioDao->getLastInsertId();
+                    $usuario->setId($ultimoId);
+
+                    header('Location: ../views/cadastro.php?msg=Cadastro realizado com sucesso. Faça login para continuar.');
+                    exit;
+                }else{
+                    header('Location: ../views/cadastro.php?erro=Erro ao fazer cadastro'); 
+                }
+            }            
         } else {
             header('Location: ../views/usuarios.php?erro=Preencha os campos obrigatórios');
         }
@@ -66,15 +148,25 @@ if(isset($_REQUEST['opcao'])) {
         if(!empty($id_usuario)){
             $usuario = $usuarioDao->buscarUsuarioPorId($id_usuario);
             if($usuario){
-                $nome = $_REQUEST['nome'] ?? '';
-                $email = $_REQUEST['email'] ?? '';
-                $senha = $_REQUEST['senha'] ?? $usuario->getSenha(); // mantém a senha se não for alterada
-                $endereco = $_REQUEST['endereco'] ?? '';
-                $telefone = $_REQUEST['telefone'] ?? '';
-                $cpf = $_REQUEST['cpf'] ?? '';
-                $dtNascimento = $_REQUEST['dtNascimento'] ?? '';
-                $tipo = $_REQUEST['$tipo'] ?? 'C';
+                $nome = $_REQUEST['nome'];
+                $email = $_REQUEST['email'];
+                $senha = $_REQUEST['senha'] ?? $usuario->getSenha();
+                $endereco = $_REQUEST['endereco'];
+                $telefone = $_REQUEST['telefone'];
+                $cpf = $_REQUEST['cpf'] ?? $usuario->getCpf();
+                $dtNascimento = $_REQUEST['dtNascimento'];
+                $tipo = $_REQUEST['$tipo'] ?? $usuario->getTipo();
 
+                // Verificação de idade mínima (18 anos)
+                $dataNascimentoObj = DateTime::createFromFormat('Y-m-d', $dtNascimento);
+                $hoje = new DateTime();
+                $idade = $hoje->diff($dataNascimentoObj)->y;
+
+                if($idade < 16){
+                    header('Location: ../views/usuarios.php?erro=Usuário deve ter pelo menos 16 anos');
+                    exit;
+                }
+                
                 $usuario->setUsuario($id_usuario, $nome, $email, $tipo, $endereco, $telefone, $cpf, $dtNascimento, $senha);
 
                 if($usuarioDao->atualizarUsuario($usuario)){
@@ -103,7 +195,7 @@ if(isset($_REQUEST['opcao'])) {
                 if($opcao == "5") {
                     header('Location: controllerServico.php?opcao=6');
                 } else if($opcao == "9") {
-                    header('Location: ../views/dadosCompra.php');
+                    header('Location: controllerCarrinho.php?opcao=5');
                 }
             }
         } else {

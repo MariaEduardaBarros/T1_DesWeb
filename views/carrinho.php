@@ -31,7 +31,7 @@
 <?php
     } 
     else {
-       $carrinho = $_SESSION['carrinho']; 
+        $carrinho = $_SESSION['carrinho']; 
 ?>
 <div class="container my-5" style="max-width: 1500px;">
     <?php 
@@ -59,7 +59,7 @@
         
         <form action="../controllers/controllerCarrinho.php?opcao=5" method="post">
             <div class="table-responsive">
-                <table class="table table-hover " id="tabela-servicos">
+                <table class="table table-hover " id="tabela-carrinho">
                     <thead class="thead p-0 m-0">
                         <tr>
                             <th scope="col" style="width:5%;">ID</th>
@@ -78,11 +78,11 @@
                                 $total += $servico->getValor();
                         ?>
                         <tr>
-                            <th><?= $servico->getId() ?></th>
-                            <td><?= $servico->getNome() ?></td>
-                            <td><?= $servico->getDescricao() ?></td>
-                            <td>R$<?= number_format($servico->getValor(), 2, ',', '.')?></td>
-                            <td>
+                            <th data-label="ID"><?= $servico->getId() ?></th>
+                            <td data-label="Serviço"><?= $servico->getNome() ?></td>
+                            <td data-label="Descrição"><?= $servico->getDescricao() ?></td>
+                            <td data-label="Valor">R$<?= number_format($servico->getValor(), 2, ',', '.')?></td>
+                            <td data-label="Data">
                                 <select name="data_servico_<?= $index ?>" class="form-control">
                                     <option value="" selected>Escolha uma data...</option>
                                     <?php
@@ -93,7 +93,7 @@
                                     ?>
                                 </select>
                             </td>
-                            <td class="text-center">
+                            <td data-label="Remover" class="text-right">
                                 <a href="../controllers/controllerCarrinho.php?opcao=2&index=<?=$index?>" class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
                                 </a>
@@ -102,7 +102,6 @@
                         <?php
                                 $index++;
                             }
-            
                         ?>
                         <tr align="right">
                             <td colspan="8"><p style="font-size: 1.5rem; color: #0b103f;"><b>Total = R$ <?=number_format($total, 2, ',', '.')?></b></p>
@@ -114,18 +113,18 @@
             <div class="container text-center">
             
                 <div class="row">
-                    <div class="col">
+                    <div class="col col-sm mb-2">
                         <a href="../controllers/controllerServico.php?opcao=6" class="btn btn-secondary w-100">
                             <i class="bi bi-arrow-left"></i> Continuar comprando
                         </a>
                     </div>
 
-                    <div class="col">
+                    <div class="col col-sm mb-2">
                         <a href="../controllers/controllerCarrinho.php?opcao=3" class="btn btn-danger w-100">
                             <i class="bi bi-trash"></i> Esvaziar carrinho
                         </a>
                     </div>
-                    <div class="col">
+                    <div class="col col-sm mb-2">
                         <button type="submit" class="btn btn-success w-100">
                             <i class="bi bi-check-circle"></i> Confirmar compra
                         </button>
