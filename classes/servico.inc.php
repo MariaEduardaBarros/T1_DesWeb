@@ -6,6 +6,7 @@
         private $valor;
         private $tipo_servico;
         private $data_servico = array();
+        private $disponivel;
 
         public function setServico($nome, $descricao, $valor, $tipo_servico) {
             $this->nome = $nome;
@@ -50,6 +51,14 @@
 
         public function getTipoServico() {
             return $this->tipo_servico;
+        }
+
+        public function setDisponivel($bool) {
+            $this->disponivel = $bool;
+        }
+
+        public function getDisponivel() {
+            return $this->disponivel;
         }
         
     }
