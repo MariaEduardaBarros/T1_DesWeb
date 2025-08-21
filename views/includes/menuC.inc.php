@@ -1,7 +1,7 @@
     <div class="row">
         <div class="col-md-12 p-0 ">
             <nav class="navbar navbar-dark bg-dark navbar-expand-lg" id="navbar">
-                <a class="navbar-brand" href="#"><img src="./imagens/logo.png" alt="Logo" class="img-fluid" width="45" height="45"></a>
+                <a class="navbar-brand" href="index.php"><img src="./imagens/logo.png" alt="Logo" class="img-fluid" width="45" height="45"></a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">

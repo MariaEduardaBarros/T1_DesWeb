@@ -1,0 +1,53 @@
+#tabela-carrinho thead{
+    background-color: #14213D;
+    color: #FFFFFF;
+}
+
+#tabela-carrinho tbody{
+    background-color: #FFFFFF;
+}
+
+@media screen and (max-width: 767px) {
+#tabela-carrinho thead {
+    display: none;
+}
+
+#tabela-carrinho tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#tabela-carrinho td, #tabela-carrinho th {
+    display: block;
+    text-align: right; 
+    padding: 0.75rem;
+    padding-left: 50%;
+    position: relative;
+    border-bottom: 1px solid #eee;
+}
+
+#tabela-carrinho td:last-child, #tabela-carrinho th:last-child {
+    border-bottom: 0;
+}
+
+#tabela-carrinho td::before, #tabela-carrinho th::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+#tabela-carrinho td[data-label="Remover"] {
+    text-align: right;
+    padding-left: 0.75rem;
+}
+
+#tabela-carrinho tr[align="right"] td {
+    text-align: center;
+    padding-left: 0.75rem;
+}
+}
