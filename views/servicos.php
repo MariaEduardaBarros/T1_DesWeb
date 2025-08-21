@@ -19,22 +19,22 @@ $servicos = $_SESSION['servicos'] ?? [];
 </div>
 
 <div class="container">
-    <?php if(isset($_REQUEST['msg'])): ?>
+    <?php if(isset($_REQUEST['msg'])){ ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <?= $_REQUEST['msg'] ?>
             <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    <?php endif; ?>
-    <?php if(isset($_REQUEST['erro'])): ?>
+    <?php } ?>
+    <?php if(isset($_REQUEST['erro'])){ ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <?= $_REQUEST['erro'] ?>
             <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    <?php endif; ?>
+    <?php } ?>
 
     <div class="row mb-3">
         <div class="col-12 text-right">
@@ -64,7 +64,7 @@ $servicos = $_SESSION['servicos'] ?? [];
                         <tr>
                             <td><?= $servico->getId() ?></td>
                             <td><?= $servico->getNome() ?></td>
-                            <td><?= $servico->getValor() ?></td>
+                            <td>R$ <?= number_format($servico->getValor(), 2, ',', '.') ?></td>
                             <td><?= $servico->getDescricao() ?></td>
                             <td><?= $servico->getTipoServico() ?></td>
                             <td>
@@ -201,12 +201,12 @@ foreach($servicos as $servico){
                 <form action="../controllers/controllerServico.php" method="post">
                     <input type="hidden" name="opcao" value="5">
                     <input type="hidden" name="id" value="<?= $id ?>">
-                    <?php for($i=0;$i<7;$i++): ?>
+                    <?php for($i=0;$i<7;$i++){ ?>
                         <div class="form-group">
                             <label>Data <?= $i+1 ?></label>
                             <input type="date" class="form-control" name="data_<?= $i+1 ?>" value="<?= isset($datas[$i]) ? date("Y-m-d",$datas[$i]) : '' ?>">
                         </div>
-                    <?php endfor; ?>
+                    <?php } ?>
                     <button type="submit" class="btn btn-success w-100">Salvar</button>
                 </form>
             </div>

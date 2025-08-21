@@ -22,7 +22,7 @@ $usuarios = $usuarioDao->listarUsuarios();
 
     <?php if(isset($_REQUEST['msg'])): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($_REQUEST['msg']) ?>
+            <?= $_REQUEST['msg'] ?>
             <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -30,7 +30,7 @@ $usuarios = $usuarioDao->listarUsuarios();
     <?php endif; ?>
     <?php if(isset($_REQUEST['erro'])): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($_REQUEST['erro']) ?>
+            <?= $_REQUEST['erro'] ?>
             <button type="button" class="close" data-dismiss="alert" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -62,59 +62,59 @@ $usuarios = $usuarioDao->listarUsuarios();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($usuarios as $usuario): ?>
+                <?php foreach($usuarios as $usuario){ ?>
                     <tr>
-                        <td><?= htmlspecialchars($usuario->getId()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getTipo()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getNome()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getEmail()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getTelefone()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getCpf()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getDtNascimento()) ?></td>
-                        <td><?= htmlspecialchars($usuario->getEndereco()) ?></td>
+                        <td><?= $usuario->getId() ?></td>
+                        <td><?= $usuario->getTipo() ?></td>
+                        <td><?= $usuario->getNome() ?></td>
+                        <td><?= $usuario->getEmail() ?></td>
+                        <td><?= $usuario->getTelefone() ?></td>
+                        <td><?= $usuario->getCpf() ?></td>
+                        <td><?= date('d/m/Y', strtotime($usuario->getDtNascimento())) ?></td>
+                        <td><?= $usuario->getEndereco() ?></td>
                         <td>
                             <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#modalEditar<?= $usuario->getId() ?>">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                         </td>
                         <td>
-                            <a href="../controllers/controllerUsuario.php?opcao=2&id=<?= htmlspecialchars($usuario->getId()) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Confirma a exclusão deste usuário?')">
+                            <a href="../controllers/controllerUsuario.php?opcao=2&id=<?= $usuario->getId() ?>" class="btn btn-danger btn-sm" onclick="return confirm('Confirma a exclusão deste usuário?')">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php } ?>
             </tbody>
         </table>
     </div>
 
     <div class="d-md-none">
-        <?php foreach($usuarios as $usuario): ?>
+        <?php foreach($usuarios as $usuario){ ?>
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-center" style="color: #14213D; font-weight: 700;"><?= htmlspecialchars($usuario->getNome()) ?></h5>
-                    <p class="card-text"><strong>Tipo:</strong> <?= htmlspecialchars($usuario->getTipo())?></p>
-                    <p class="card-text"><strong>Email:</strong> <?= htmlspecialchars($usuario->getEmail()) ?></p>
-                    <p class="card-text"><strong>Telefone:</strong> <?= htmlspecialchars($usuario->getTelefone()) ?></p>
-                    <p class="card-text"><strong>CPF:</strong> <?= htmlspecialchars($usuario->getCpf()) ?></p>
-                    <p class="card-text"><strong>Data Nascimento:</strong> <?= htmlspecialchars($usuario->getDtNascimento()) ?></p>
-                    <p class="card-text"><strong>Endereço:</strong> <?= htmlspecialchars($usuario->getEndereco())?></p>
+                    <h5 class="card-title text-center" style="color: #14213D; font-weight: 700;"><?= $usuario->getNome() ?></h5>
+                    <p class="card-text"><strong>Tipo:</strong> <?= $usuario->getTipo()?></p>
+                    <p class="card-text"><strong>Email:</strong> <?= $usuario->getEmail() ?></p>
+                    <p class="card-text"><strong>Telefone:</strong> <?= $usuario->getTelefone() ?></p>
+                    <p class="card-text"><strong>CPF:</strong> <?= $usuario->getCpf() ?></p>
+                    <p class="card-text"><strong>Data Nascimento:</strong> <?= $usuario->getDtNascimento() ?></p>
+                    <p class="card-text"><strong>Endereço:</strong> <?= $usuario->getEndereco()?></p>
                     <div class="d-flex justify-content-between flex-wrap">
                         <button type="button" class="btn btn-light btn-sm mb-1" data-toggle="modal" data-target="#modalEditar<?= $usuario->getId() ?>">
                             <i class="bi bi-pencil-square"></i>
                         </button>
-                        <a href="../controllers/controllerUsuario.php?opcao=2&id=<?= htmlspecialchars($usuario->getId()) ?>" class="btn btn-danger btn-sm mb-1" onclick="return confirm('Confirma a exclusão deste usuário?')">
+                        <a href="../controllers/controllerUsuario.php?opcao=2&id=<?= $usuario->getId() ?>" class="btn btn-danger btn-sm mb-1" onclick="return confirm('Confirma a exclusão deste usuário?')">
                             <i class="bi bi-trash"></i>
                         </a>
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
+        <?php } ?>
     </div>
 </div>
 
 <!-- Modal de Editar Usuário -->
-<?php foreach($usuarios as $usuario): ?>
+<?php foreach($usuarios as $usuario){ ?>
 <div class="modal fade" id="modalEditar<?= $usuario->getId() ?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -127,34 +127,35 @@ $usuarios = $usuarioDao->listarUsuarios();
             <div class="modal-body">
                 <form action="../controllers/controllerUsuario.php" method="post">
                     <input type="hidden" name="opcao" value="4">
-                    <input type="hidden" name="id" value="<?= htmlspecialchars($usuario->getId()) ?>">
+                    <input type="hidden" name="id" value="<?= $usuario->getId() ?>">
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" class="form-control" name="nome" value="<?= htmlspecialchars($usuario->getNome()) ?>" required>
+                        <input type="text" class="form-control" name="nome" value="<?= $usuario->getNome() ?>" required>
                     </div>
                     <div class="form-group">
                         <label>Telefone</label>
-                        <input type="text" class="form-control" name="telefone" value="<?= htmlspecialchars($usuario->getTelefone()) ?>">
+                        <input type="text" class="form-control" name="telefone" value="<?= $usuario->getTelefone() ?>">
                     </div>
                     <div class="form-group">
                         <label>CPF</label>
-                        <input type="text" class="form-control" name="cpf" value="<?= htmlspecialchars($usuario->getCpf()) ?>" readonly>
+                        <input type="text" class="form-control" name="cpf" value="<?= $usuario->getCpf() ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label>Data Nascimento</label>
-                        <input type="date" class="form-control" name="dtNascimento" value="<?= htmlspecialchars($usuario->getDtNascimento()) ?>">
+                        <input type="date" class="form-control" name="dtNascimento" 
+                        value="<?= date('Y-m-d', strtotime($usuario->getDtNascimento()))?>" required>
                     </div>
                     <div class="form-group">
                         <label>Endereço</label>
-                        <input type="text" class="form-control" name="endereco" value="<?= htmlspecialchars($usuario->getEndereco()) ?>" required>
+                        <input type="text" class="form-control" name="endereco" value="<?= $usuario->getEndereco() ?>" required>
                     </div>                    
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($usuario->getEmail()) ?>" required>
+                        <input type="email" class="form-control" name="email" value="<?= $usuario->getEmail() ?>" required>
                     </div>                    
                     <div class="form-group">
                         <label>Tipo</label>
-                        <input type="text" class="form-control" name="tipo" value="<?= htmlspecialchars($usuario->getTipo()) ?>" readonly>
+                        <input type="text" class="form-control" name="tipo" value="<?= $usuario->getTipo() ?>" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Salvar</button>
                 </form>
@@ -162,7 +163,7 @@ $usuarios = $usuarioDao->listarUsuarios();
         </div>
     </div>
 </div>
-<?php endforeach; ?>
+<?php } ?>
 
 <!-- Modal de Adicionar Usuário -->
 <div class="modal fade" id="modalAdicionarUsuario" tabindex="-1" role="dialog" aria-hidden="true">

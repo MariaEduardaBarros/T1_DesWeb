@@ -81,7 +81,7 @@ class ServicoDao {
     }
 
     public function buscarDatasPorServicoId($id_servico) { // busca as datas de um serviço
-        $sql = $this->conn->prepare("SELECT data FROM datasdisponiveis WHERE id_servico = :id_servico");
+        $sql = $this->conn->prepare("SELECT data FROM datasdisponiveis WHERE id_servico = :id_servico AND disponivel = 1");
         $sql->bindValue(':id_servico', $id_servico);
         $sql->execute();
         $datas = array();
@@ -96,6 +96,28 @@ class ServicoDao {
         $sql->bindValue(':id_servico', $id_servico);
         return $sql->execute();
     }
+
+    public function editarDatasDisponiveis($id_servico, $data) { // atualiza as datas disponíveis de um serviço
+        $sql = $this->conn->prepare("UPDATE datasdisponiveis SET disponivel = 0 WHERE id_servico = :id_servico AND data = :data");
+
+        $sql->bindValue(':id_servico', $id_servico);
+        $sql->bindValue(':data', converteDataMysql($data));
+        $sql->execute();
+    }
+
+    public function verificarDisponibilidadeServico($idServico){
+        $sql = $this->conn->prepare("SELECT COUNT(*) as qtd FROM datasdisponiveis WHERE id_servico = :id AND disponivel = 1");
+        $sql->bindValue(':id', $idServico);
+        $sql->execute();
+        $row = $sql->fetch(PDO::FETCH_OBJ);
+
+        if($row->qtd == 0){
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 ?>

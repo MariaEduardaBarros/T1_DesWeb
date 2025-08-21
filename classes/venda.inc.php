@@ -5,6 +5,7 @@ class Venda{
     private $cod_cliente;
     private $valorTotal;
     private $data;
+    private $itens = array();
 
     public function __construct($cod_cliente, $valor){
         $this->cod_cliente = $cod_cliente;
@@ -14,6 +15,10 @@ class Venda{
 
     public function getIdVenda(){
         return $this->id_venda;
+    }
+
+    public function setIdVenda($id){
+        $this->id_venda = $id;
     }
 
     public function setCod_cliente($cod_cliente){
@@ -34,6 +39,18 @@ class Venda{
 
     public function getData(){
         return $this->data;
+    }
+
+    public function setData($data){
+        $this->data = $data;
+    }
+
+    public function setItens($itens){
+        $this->itens = $itens;
+    }
+
+    public function getItens(){
+        return $this->itens;
     }
 
 }

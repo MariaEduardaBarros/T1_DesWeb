@@ -8,8 +8,6 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
     $opcao = $_REQUEST['opcao'];
     $id_servico = $_REQUEST['id'] ?? null;
 
-
-
     if($opcao == "1"){ // opção para inserir um novo serviço
         $servicoDao = new ServicoDao();
         $nome = $_POST['nome'];
@@ -18,7 +16,11 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
         $tipo_servico = $_POST['tipo_servico'];
 
         if(!empty($nome) && !empty($valor) && !empty($descricao) && !empty($tipo_servico)){
-            
+            if(!is_numeric($valor)){
+                header('Location: ../views/servicos.php?erro=Valor inválido, use apenas números.');
+                exit;
+            }
+
             $servico = new Servico();
             $servico->setServico($nome, $descricao, $valor, $tipo_servico);
 
@@ -63,6 +65,13 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
                 header('Location: ../views/servicos.php');
             }
         } else if ($opcao == "6") {
+            foreach($servicos as $servico){
+                if(!$servicoDao->verificarDisponibilidadeServico($servico->getId())){
+                    $servico->setDisponivel(false); 
+                } else {
+                    $servico->setDisponivel(true);
+                }
+            }
             header('Location: ../views/servicosVenda.php');
         }
     }
@@ -98,14 +107,19 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
         if(!empty($id_servico)){
             $i = 0;
             $data = array();
+            $hoje = new DateTime();
+
             while($i < 7) { //pego datas de 1 a 7
-                if(empty($_POST['data_' . ($i + 1)])) { // se a data não foi preenchida, não adiciono ao array
-                    $i++;
+                $dataInput = $_POST['data_' . ($i + 1)];
+                if(!empty($dataInput)) {
+                    $dataObj = DateTime::createFromFormat('Y-m-d', $dataInput);
+
+                    if($dataObj && $dataObj >= $hoje){
+                        $data[] = $dataInput;
+                    }
+                    
                 }
-                else{
-                    $data[] = $_POST['data_' . ($i + 1)]; // adiciono a data ao array
-                    $i++;
-                }
+                $i++;
             }
             if(!empty($data)){ // se o array de datas não estiver vazio
                 $servico = $servicoDao->buscarServicoPorId($id_servico);
@@ -115,6 +129,8 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
                 } else {
                     header('Location: controllerServico.php?opcao=3&msg=Erro ao adicionar data');
                 }
+            }else {
+                header('Location: controllerServico.php?opcao=3&msg=Nenhuma data válida foi informada');
             }
         }
     }

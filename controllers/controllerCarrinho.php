@@ -121,5 +121,14 @@ else if($opcao == 6){ //Listar serviços no carrinho
         exit;
     }
     $carrinho = $_SESSION['carrinho'];
+
+    $servicoDao = new ServicoDao();
+
+    foreach($carrinho as $servico){
+        $servico->setDatasServico($servicoDao->buscarDatasPorServicoId($servico->getId()));
+    }
+
+    $_SESSION['carrinho'] = $carrinho;
+    
     header("Location: ../views/carrinho.php");
 }

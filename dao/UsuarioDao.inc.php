@@ -15,7 +15,7 @@ class UsuarioDao
     public function autenticar($email, $senha) {
         $sql = $this->conexao->prepare("SELECT * FROM usuarios WHERE email = :email and senha = :senha");
         
-        $sql->bindValue(':email', $email);
+        $sql->bindValue(':email', strtolower($email));
         $sql->bindValue(':senha', $senha);
         $sql->execute();
         

@@ -44,6 +44,24 @@ if(isset($_REQUEST['opcao'])) {
                 exit;
             }
         }
+        //Valida idade minima (16 anos)
+        $dtNascimentoObj = DateTime::createFromFormat('Y-m-d', $dtNascimento);
+        $hoje = new DateTime();
+        $idade = $hoje->diff($dtNascimentoObj)->y;
+
+        if ($idade < 16) {
+            $informacoes->setDtNascimento('');
+            $_SESSION['informacoes'] = $informacoes;
+
+            if($opcao == "10") {
+                header('Location: ../views/cadastro.php?erro=Você deve ter pelo menos 16 anos para se cadastrar.');
+                exit;
+            } else {
+                header('Location: ../views/usuarios.php?erro=Usuário deve ter pelo menos 16 anos.');
+                exit;
+            }
+        }
+        // Verifica se o CPF e o email já existem
         if($usuarioDao->verificarCpfExistente($cpf)){
             $informacoes->setCpf('');
             $_SESSION['informacoes'] = $informacoes;
@@ -139,6 +157,16 @@ if(isset($_REQUEST['opcao'])) {
                 $dtNascimento = $_REQUEST['dtNascimento'];
                 $tipo = $_REQUEST['$tipo'] ?? $usuario->getTipo();
 
+                // Verificação de idade mínima (18 anos)
+                $dataNascimentoObj = DateTime::createFromFormat('Y-m-d', $dtNascimento);
+                $hoje = new DateTime();
+                $idade = $hoje->diff($dataNascimentoObj)->y;
+
+                if($idade < 16){
+                    header('Location: ../views/usuarios.php?erro=Usuário deve ter pelo menos 16 anos');
+                    exit;
+                }
+                
                 $usuario->setUsuario($id_usuario, $nome, $email, $tipo, $endereco, $telefone, $cpf, $dtNascimento, $senha);
 
                 if($usuarioDao->atualizarUsuario($usuario)){
@@ -167,7 +195,7 @@ if(isset($_REQUEST['opcao'])) {
                 if($opcao == "5") {
                     header('Location: controllerServico.php?opcao=6');
                 } else if($opcao == "9") {
-                    header('Location: ../views/dadosCompra.php');
+                    header('Location: controllerCarrinho.php?opcao=5');
                 }
             }
         } else {

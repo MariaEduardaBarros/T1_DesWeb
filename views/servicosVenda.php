@@ -32,10 +32,20 @@ $servicos = $_SESSION['servicos'] ?? array();
                     <h6 class="card-subtitle mb-2"><strong>Valor:</strong> R$ <?= number_format($servico->getValor(), 2, ',', '.') ?></h6>
 
                     <div class="mt-auto">
-                    <a class="btn w-100" style="background-color:  #14213D; color: #fff"
-                        href="../controllers/controllerCarrinho.php?opcao=1&id=<?= $servico->getId()?>">
-                        Adicionar ao carrinho
-                    </a>
+                        <?php 
+                            if($servico->getDisponivel()) {
+                        ?>
+                            <a class="btn w-100" style="background-color:  #14213D; color: #fff"
+                                href="../controllers/controllerCarrinho.php?opcao=1&id=<?= $servico->getId()?>">
+                                Adicionar ao carrinho
+                            </a>
+                        <?php
+                            } else {
+                        ?>
+                            <p class="card-text text-center text-danger">Serviço indisponível no momento!</p>
+                        <?php
+                            }
+                        ?>
                     </div>
 
                 </div>
