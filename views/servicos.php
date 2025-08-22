@@ -3,6 +3,7 @@ require_once "../classes/servico.inc.php";
 require_once "includes/cabecalho.inc.php";
 
 $servicos = $_SESSION['servicos'] ?? [];
+$tipos_servico = $_SESSION['tipos_servico'] ?? [];
 ?>
 
 <div class="container-fluid">
@@ -198,8 +199,9 @@ $servicos = $_SESSION['servicos'] ?? [];
                     <div class="form-group">
                         <label>Tipo de Serviço</label>
                         <select name="tipo_servico" class="form-control" required>
-                            <option value="1">Desenvolvedor</option>
-                            <option value="2">Analista de Dados</option>
+                            <?php foreach($tipos_servico as $tipo){ ?>
+                                <option value="<?= $tipo->getId() ?>"><?= $tipo->getNome() ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-success w-100">Salvar</button>

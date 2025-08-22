@@ -50,6 +50,8 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
         session_start();
         $servicoDao = new ServicoDao();
         $servicos = $servicoDao->listarServicos(); 
+        $tipos_servico = $servicoDao->listarTiposServico(); // busca os tipos de serviço
+        $_SESSION['tipos_servico'] = $tipos_servico;
 
         $_SESSION['servicos'] = $servicos;
         if($opcao == "3"){
