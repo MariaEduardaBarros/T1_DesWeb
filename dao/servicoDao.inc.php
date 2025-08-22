@@ -124,6 +124,18 @@ class ServicoDao {
         return $sql->execute();
     }
 
+    public function listarTiposServico() { // lista todos os tipos de serviço
+        $sql = $this->conn->query("SELECT * FROM tipo");
+        $tipos = array();
+        while($row = $sql->fetch(PDO::FETCH_OBJ)){
+            $tipo = new TipoServico();
+            $tipo->setId($row->id_tipo);
+            $tipo->setNome($row->nome);
+            $tipos[] = $tipo;
+        }
+        return $tipos;
+    }
+
 }
 
 ?>
