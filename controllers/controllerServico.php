@@ -134,6 +134,20 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
             }
         }
     }
+
+    else if ($opcao == "7"){
+        $servicoDao = new ServicoDao();
+        $nome = $_POST['nome'];
+        if(!empty($nome)){
+            if($servicoDao->inserirTipoServico($nome)){
+                header('Location: controllerServico.php?opcao=3&msg=Sucesso ao incluir o tipo de serviço');
+            } else {
+                header('Location: ../views/servicos.php?opcao=3&erro=Erro ao incluir o tipo de serviço');
+            }
+        } else {
+            header('Location: ../views/servicos.php?msg=3');
+        }
+    }
 }
 
 
