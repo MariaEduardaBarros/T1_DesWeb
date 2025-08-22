@@ -130,7 +130,7 @@ if(isset($_REQUEST['opcao'])) { // verifica se a opção foi passada
                     header('Location: controllerServico.php?opcao=3&msg=Erro ao adicionar data');
                 }
             }else {
-                header('Location: controllerServico.php?opcao=3&msg=Nenhuma data válida foi informada');
+                header('Location: controllerServico.php?opcao=3&erro=Nenhuma data válida foi informada');
             }
         }
     }
