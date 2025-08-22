@@ -51,6 +51,6 @@ $erro = $_REQUEST['erro'] ?? '';
             <input type="password" id="senha" name="senha" class="form-control" placeholder="Nova senha">
         </div>
 
-        <button type="submit" class="btn btn-primary">Salvar alterações</button>
+        <button type="submit" class="btn btn-success">Salvar alterações</button>
     </form>
 </div>
