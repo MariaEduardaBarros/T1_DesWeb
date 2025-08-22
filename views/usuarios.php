@@ -157,7 +157,7 @@ $usuarios = $usuarioDao->listarUsuarios();
                         <label>Tipo</label>
                         <input type="text" class="form-control" name="tipo" value="<?= $usuario->getTipo() ?>" readonly>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Salvar</button>
+                    <button type="submit" class="btn btn-success w-100">Salvar</button>
                 </form>
             </div>
         </div>
@@ -215,7 +215,7 @@ $usuarios = $usuarioDao->listarUsuarios();
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary w-100">Salvar Usuário</button>
+                    <button type="submit" class="btn btn-success w-100">Salvar Usuário</button>
                 </div>
             </form>
         </div>

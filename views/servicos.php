@@ -1,4 +1,5 @@
 <?php
+require_once '../classes/tipoServico.inc.php';
 require_once "../classes/servico.inc.php";
 require_once "includes/cabecalho.inc.php";
 
