@@ -118,6 +118,12 @@ class ServicoDao {
         return true;
     }
 
+    public function inserirTipoServico($nome){
+        $sql = $this->conn->prepare("INSERT INTO tipo (nome) VALUES (:nome)");
+        $sql->bindValue(':nome', $nome);
+        return $sql->execute();
+    }
+
 }
 
 ?>

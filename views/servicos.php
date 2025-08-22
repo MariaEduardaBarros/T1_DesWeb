@@ -38,6 +38,9 @@ $servicos = $_SESSION['servicos'] ?? [];
 
     <div class="row mb-3">
         <div class="col-12 text-right">
+            <button type="button" class="btn" style="background-color: #14213D; color: #fff; font-weight: 600;" data-toggle="modal" data-target="#modalAddTipoServico">
+                Adicionar Tipo de Serviço
+            </button>
             <button type="button" class="btn" style="background-color: #14213D; color: #fff; font-weight: 600;" data-toggle="modal" data-target="#modalAddServico">
                 Adicionar Serviço
             </button>
@@ -137,6 +140,30 @@ $servicos = $_SESSION['servicos'] ?? [];
         <?php } ?>
     </div>
 </div>
+
+<div class="modal fade" id="modalAddTipoServico" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cadastro de Tipo de Serviço</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="../controllers/controllerServico.php" method="post">
+                    <input type="hidden" name="opcao" value="7">
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" name="nome" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal Adicionar Serviço -->
 <div class="modal fade" id="modalAddServico" tabindex="-1" role="dialog" aria-hidden="true">
